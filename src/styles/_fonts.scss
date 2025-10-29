@@ -1,0 +1,57 @@
+@use 'variables/typography' as font; //cuando pongo el as vsc me trae las variables de ese archivo
+
+@font-face {
+  font-family: font.$main-family-Roboto-Black;
+  src: url('../assets/fonts/roboto/Roboto-Black.ttf') format('truetype');
+  //font-style: normal; //opcional
+  //font-weight: 400; //opcional
+}
+@font-face {
+  font-family: font.$main-family-Roboto-BlackItalic;
+  src: url('../assets/fonts/roboto/Roboto-BlackItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Bold;
+  src: url('../assets/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-BoldItalic;
+  src: url('../assets/fonts/roboto/Roboto-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Italic;
+  src: url('../assets/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Light;
+  src: url('../assets/fonts/roboto/Roboto-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-LightItalic;
+  src: url('../assets/fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Medium;
+  src: url('../assets/fonts/roboto/Roboto-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-MediumItalic;
+  src: url('../assets/fonts/roboto/Roboto-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Regular;
+  src: url('../assets/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-Thin;
+  src: url('../assets/fonts/roboto/Roboto-Thin.ttf') format('truetype');
+}
+@font-face {
+  font-family: font.$main-family-Roboto-ThinItalic;
+  src: url('../assets/fonts/roboto/Roboto-ThinItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: font.$main-family-Audiowide-Regular;
+  src: url('../assets/fonts/audiowide/Audiowide-Regular.ttf') format('truetype');
+}

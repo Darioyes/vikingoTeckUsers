@@ -1,0 +1,90 @@
+@use 'sass:color';
+
+//colores
+$primary: #00264d;
+$secondary: #6C757D;
+$success: #198754;
+$info:#0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #343a40;
+$white: #ffffff;
+$black: #000000;
+$indigo:#6610f2;
+$blue: #3c94f3;
+$gray: #6c757d;
+$white-transparent: #ffffff55;
+$male: #007bff;
+$female: #f62f93;
+$other: #6c757d;
+$whatsapp: #25d366;
+
+//mapa de colores
+$colores:(
+    primary: $primary,
+    secondary: $secondary,
+    success: $success,
+    info: $info,
+    warning: $warning,
+    danger: $danger,
+    light: $light,
+    dark: $dark,
+    white: $white,
+    black: $black,
+    indigo: $indigo,
+    gray: $gray
+);
+//colores base dark
+@each $name, $color in $colores {
+  //quedaria la clase como .dark-primary
+  .dark-#{"#{$name}"} {
+    color: color.scale($color, $lightness: -20%);
+  }
+}
+//colores base light
+@each $name, $color in $colores {
+  //quedaria la clase como .light-primary
+  .light-#{"#{$name}"} {
+    color: color.adjust($color, $lightness: 20%);
+  }
+}
+//colores transparentes
+@each $name, $color in $colores {
+  //quedaria la clase como .transparent-primary
+  .transparent-#{"#{$name}"} {
+    color: color.adjust($color, $alpha: -0.2);
+  }
+}
+
+//gray
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+
+//mapa de grises
+$gray:(
+    100: $gray-100,
+    200: $gray-200,
+    300: $gray-300,
+    400: $gray-400,
+    500: $gray-500,
+    600: $gray-600,
+    700: $gray-700,
+    800: $gray-800,
+    900: $gray-900
+);
+
+//colores grises dark
+@each $name, $color in $gray {
+  //quedaria la clase como .dark-gray-100
+  .gray-#{"#{$name}"} {
+    color: $color;
+  }
+}

@@ -1,0 +1,23 @@
+@mixin desktop {
+  @media screen and (max-width:1440px){
+      //@content es para que se pueda agregar cualquier propiedad css
+      @content;
+  }
+}
+
+@mixin tablets {
+  @media screen and (max-width:1000px){
+      @content;
+  }
+}
+
+@mixin phone {
+  @media screen and (max-width:480px){
+      @content;
+  }
+}
+@mixin small-phone {
+  @media screen and (max-width:360px){
+      @content;
+  }
+}

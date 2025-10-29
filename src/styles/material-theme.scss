@@ -1,0 +1,205 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@use 'variables/typography' as font;
+
+
+// src/styles.scss
+
+/* ---------------------------------------------------------------------------
+   Archivo base de Angular Material (modificado para usar tus colores)
+   --------------------------------------------------------------------------- */
+
+/* 1) Mantener la llamada al sistema de theming (genera las variables --mat-sys-*) */
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,   // dejamos los palettes built-in para no romper nada
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+/* 2) Sobreescribir (override) las variables CSS de Material con tus colores.
+   Esto es seguro, independiente de la versión, y hará que los componentes usen
+   tu paleta corporativa. Ajusta los valores si quieres otros tonos. */
+:root {
+  /* Primary */
+  --mat-sys-primary: #00264d;                /* tu $primary */
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #b3d1ff;      /* tono claro relacionado */
+  --mat-sys-on-primary-container: #000000;
+
+  /* Tertiary / Accent */
+  --mat-sys-tertiary: #3c94f3;               /* tu $blue */
+  --mat-sys-on-tertiary: #ffffff;
+  --mat-sys-tertiary-container: #e6f6ff;
+  --mat-sys-on-tertiary-container: #000000;
+
+  /* Surface / Background (usar tokens generados por Material como fallback) */
+  --mat-sys-surface: #ffffff;
+  --mat-sys-on-surface: #000000;
+
+  /* Estados comunes */
+  --mat-sys-error: #dc3545;                  /* $danger */
+  --mat-sys-on-error: #ffffff;
+
+  /* Colores extra (usables directamente con var(--color-...)) */
+  --color-primary: #00264d;
+  --color-secondary: #6C757D;
+  --color-success: #198754;
+  --color-info: #0dcaf0;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --color-whatsapp: #25d366;
+}
+
+/* 3) Modo oscuro: definimos overrides para los mismos tokens cuando .dark-mode está activo */
+html.dark-mode {
+  /* puedes ajustar esto para que el contraste sea correcto en oscuro */
+  --mat-sys-primary: #b3d1ff;
+  --mat-sys-on-primary: #00264d;
+  --mat-sys-primary-container: #00264d;
+  --mat-sys-on-primary-container: #ffffff;
+
+  --mat-sys-tertiary: #bfefff;
+  --mat-sys-on-tertiary: #003248;
+  --mat-sys-tertiary-container: #003248;
+  --mat-sys-on-tertiary-container: #ffffff;
+
+  --mat-sys-surface: #121212;
+  --mat-sys-on-surface: #e6e6e6;
+}
+
+/* 4) Estilos globales (mantener los tuyos) */
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+}
+
+/* Atajos para usar en componentes no-Material */
+.btn-whatsapp {
+  background-color: var(--color-whatsapp);
+  color: white;
+}
+
+/* Mantén tus imports y reglas globales debajo si las tienes */
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// IMPORTACIÓN ÚNICA (Recomendada por Angular)
+// ===============================================
+// @use '@angular/material' as mat; 
+// @use 'sass:map';
+// @use 'variables/typography' as font;
+
+// $vikingo-blue:(
+//   50:  #e6f0ff,
+//   100: #b3d1ff,
+//   200: #80b3ff,
+//   300: #4d94ff,
+//   400: #1a75ff,
+//   500: #00264d, // 💥 principal
+//   600: #002045,
+//   700: #001a3c,
+//   800: #001433,
+//   900: #000d1a,
+//   A100: #80b3ff,
+//   A200: #4d94ff,
+//   A400: #1a75ff,
+//   A700: #004080,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #000000,
+//     500: #000000,
+//     600: #000000,
+//     700: #000000,
+//     800: #000000,
+//     900: #000000,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #000000,
+//     A700: #000000,
+//   )
+// );
+
+// $vikingo-gray:(
+//   50:  #f2f3f4,
+//   100: #e0e2e4,
+//   200: #caced0,
+//   300: #b4b9bc,
+//   400: #9fa5a9,
+//   500: #6C757D, // 💥 principal (secundario)
+//   600: #5e676e,
+//   700: #50595f,
+//   800: #424b50,
+//   900: #333c40,
+//   A100: #d9dce0,
+//   A200: #b5bcc1,
+//   A400: #909da3,
+//   A700: #7a878d,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #ffffff,
+//     400: #ffffff,
+//     500: #ffffff,
+//     600: #ffffff,
+//     700: #ffffff,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #ffffff,
+//     A400: #ffffff,
+//     A700: #ffffff,
+//   )
+// );
+
+// $vikingo-aux:(
+//   success: #198754,
+//   info:#0dcaf0,
+//   warning: #ffc107,
+//   danger: #dc3545,
+// );
+
+// // ¡MIGRACIÓN OBLIGATORIA!
+// // **1. Usamos define-colors y SOLO le pasamos el MAPA** (sin el ', 500').
+// $my-primary: mat.define-colors($vikingo-blue); 
+// $my-accent: mat.define-colors($vikingo-gray);
+
+// $my-theme: mat.define-theme((
+//   color: (
+//     primary: $my-primary,
+//     accent: $my-accent,
+    
+//   ),
+//   // typography: mat.define-typography((
+//   //   font-family: font.$main-family-Roboto-Regular,
+//   //   display-4: mat.define-typography-level(112px, 112px, 300),
+//   //   display-3: mat.define-typography-level(56px, 56px, 400),
+//   //   display-2: mat.define-typography-level(45px, 48px, 400),
+//   //   display-1: mat.define-typography-level(34px, 40px, 400),
+//   //   headline: mat.define-typography-level(24px, 32px, 400),
+//   //   title: mat.define-typography-level(20px, 32px, 500),
+//   //   subheading-2: mat.define-typography-level(16px, 28px, 400),
+//   //   subheading-1: mat.define-typography-level(15px, 24px, 400),
+//   //   body-2: mat.define-typography-level(14px, 24px, 500),
+//   //   body-1: mat.define-typography-level(14px, 20px, 400),
+//   //   caption: mat.define-typography-level(12px, 20px, 400),
+//   //   button: mat.define-typography-level(14px, 14px, 500),
+//   // )),
+// ));
+
+
+// @include mat.all-component-themes($my-theme);

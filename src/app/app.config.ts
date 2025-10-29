@@ -1,12 +1,32 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { provideRouter, withComponentInputBinding, withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+
+import { errorApiInterceptor } from './interceptors/errorInterceptor/error-api-interceptor-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),
+
+    // provideZonelessChangeDetection(),//para manejar cambios de zona sin necesidad de Angular
     provideZonelessChangeDetection(),
-    provideRouter(routes)
+    
+    //providerRouter(routes) es para manejar las rutas de la aplicación
+    provideRouter(routes,
+      //withHashLocation sirve para que en el servidor siempre vaya al index.html,
+    withHashLocation(),
+    //es para que localice los id en las rutas ejemplo/:id
+    withComponentInputBinding() 
+    ),
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+    
+     //provideClientHydration(),//solo se usa con ssr
+    provideHttpClient(//para usar httpClient
+      withFetch(),//para usar fetch en lugar de XMLHttpRequest
+      withInterceptors([ errorApiInterceptor]),//interceptor de errores globales
+    ),
   ]
 };

@@ -1,0 +1,47 @@
+@use 'variables/typography' as font;
+@use 'variables/mediaq' as mq;
+@use 'material-theme.scss' as mat-theme;
+@use 'variables/variables' as variables;
+
+*{
+  font-family: font.$main-family-Roboto-Regular;
+  box-sizing: border-box;
+  min-width: 0;
+
+  a{
+      text-decoration: none;
+      //color: color.$principal;
+  }
+  scrollbar-color: variables.$primary variables.$gray-200;
+  //thin para que sea delegado por el navegador esto quiere decir que en chrome sera delgado y en firefox tambien
+  scrollbar-width: thin;
+
+}
+
+html, body{
+  //dvh es para que tome el 100% de la pantalla
+  min-height: 100dvh;
+  background: variables.$gray-200;
+
+
+}
+
+h1,h2,h3,h4,h5,h6{
+  //text-wrap balance sirve para que se corte la palabra
+  text-wrap: balance;
+}
+p, span{
+  //text-wrap pretty sirve para que no se corte la palabra
+  text-wrap: pretty;
+}
+
+img{
+  //esto es para que la imagen se ajuste al tamaño del contenedor
+  object-fit: cover;
+  //esto es para que la imagen se centre en el contenedor
+  object-position: center center;
+}
+
+.alert{
+  font-size: 0.8em;
+}
