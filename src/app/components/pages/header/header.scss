@@ -1,0 +1,101 @@
+@use '../../../../styles/variables/variables' as variables;
+@use '../../../../styles/variables/typography' as typography;
+
+.container-header{
+    //colocarlo sticky para que se quede fijo en la parte superior
+    position: sticky;
+    background-color: transparent;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 60px;
+    &:hover{
+        background-color: variables.$white;
+        transition: background-color 0.3s ease;
+    }
+    &__hamburger{
+        cursor: pointer;
+        i{
+            font-size: 1.5rem;
+            color: variables.$white;
+            //cuando le haga hover al header el color del icono cambia
+            .container-header:hover &{
+                color: variables.$primary;
+                transition: color 0.3s ease;
+            }
+        }
+    }
+    &__logo{
+        h1{
+            font-family: typography.$main-family-Audiowide-Regular;
+            font-size: 2.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            color: variables.$white;
+            cursor: pointer;
+            .container-header:hover &{
+                color: variables.$primary;
+                transition: color 0.3s ease;
+            }
+            span{
+                font-size: 1.2em;
+                font-weight: 700;
+            }
+        }
+    }
+    &__actions{
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 1.2rem;
+        i{
+            cursor: pointer;
+            color: variables.$white;
+            .container-header:hover &{
+                color: variables.$primary;
+                transition: color 0.3s ease;
+            }
+        }
+        .point-shopping{
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background-color: variables.$danger;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: none; //cambiar a display block con angular cuando haya productos en el carrito
+        }
+    }
+}
+
+.container-search{
+    display: none;//cambiar a display flex con angular cuando se haga click en el icono de busqueda
+    align-items: center;
+    justify-content: center;
+    background-color: variables.$white;
+    gap: 10px;
+    input{
+        width: 100%;
+        padding: 8px 35px 8px 15px;
+        border: none;
+        font-size: 1.3rem;
+        outline: none;
+        font-family: typography.$main-family-Roboto-Regular;
+        //cambiar el color del texto que va dentro del input
+        color: variables.$primary;
+        &::placeholder{
+            color: variables.$gray-600;
+            font-family: typography.$main-family-Roboto-Regular;
+        }
+    }
+    i{  
+        font-size: 1.2rem;
+        color: variables.$gray-600;
+        text-align: center;
+        padding-left: 40px;
+        color: variables.$primary;
+    }
+}
