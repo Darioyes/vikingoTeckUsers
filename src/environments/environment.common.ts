@@ -14,6 +14,8 @@ export const commonEnvironment = {
   colorMale:'#007bff',
   colorFemale:'#f62f93',
   colorOther:'#6c757d',
+  colorWhite:'#ffffff',
+  colorBlack:'#000000',
   colorPrimaryGradient:'#9accff',
   colorSuccessGradient:'#b7f2d7',
   colorWarningGradient:'#fff4d3',

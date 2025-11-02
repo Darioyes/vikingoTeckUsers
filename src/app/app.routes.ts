@@ -11,5 +11,17 @@ export const routes: Routes = [
         path: 'home',
         title: 'VikingoTech',
         loadComponent: () => import('./components/dashboard/dashboard').then(c=> c.Dashboard),
+        children: [
+            {
+                path: '',
+                redirectTo: 'principal',
+                pathMatch: 'full',
+            },
+            {
+                path: 'principal',
+                title: 'vikingoTech - Home',
+                loadComponent: () => import('./components/pages/main/main').then(c => c.Main),
+            },
+        ],
     },
 ];

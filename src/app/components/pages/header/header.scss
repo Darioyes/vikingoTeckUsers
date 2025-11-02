@@ -1,24 +1,30 @@
 @use '../../../../styles/variables/variables' as variables;
 @use '../../../../styles/variables/typography' as typography;
+@use '../../../../../src/styles/variables/mediaq' as *;
 
 .container-header{
-    //colocarlo sticky para que se quede fijo en la parte superior
-    position: sticky;
     background-color: transparent;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 18px 60px;
+        @include tablets{
+            background-color: variables.$white;
+            padding: 18px 20px;
+        }
     &:hover{
         background-color: variables.$white;
         transition: background-color 0.3s ease;
     }
     &__hamburger{
         cursor: pointer;
-        i{
+        mat-icon{
             font-size: 1.5rem;
             color: variables.$white;
+            @include tablets{
+                color: variables.$primary;
+            }
             //cuando le haga hover al header el color del icono cambia
             .container-header:hover &{
                 color: variables.$primary;
@@ -34,6 +40,14 @@
             letter-spacing: 2px;
             color: variables.$white;
             cursor: pointer;
+                @include tablets{
+                    color: variables.$primary;
+                    font-size: 1.8rem;
+                }
+                @include phone{
+                    font-size: 1.4rem;
+                }
+            
             .container-header:hover &{
                 color: variables.$primary;
                 transition: color 0.3s ease;
@@ -50,24 +64,41 @@
         align-items: center;
         gap: 20px;
         font-size: 1.2rem;
-        i{
-            cursor: pointer;
-            color: variables.$white;
+        
+        mat-icon{
+        cursor: pointer;
+        color: variables.$white;
+        font-size: 1.5rem;
+            @include tablets{
+                color: variables.$primary;
+            }
             .container-header:hover &{
                 color: variables.$primary;
                 transition: color 0.3s ease;
             }
+            @include tablets{
+                &:nth-child(2){
+                    display: none;
+                }
+                &:nth-child(1){
+                    display: none;
+                }
+            }
+
         }
+
         .point-shopping{
             position: absolute;
-            top: -5px;
-            right: -8px;
+            top: 0;
+            right: -5px;
             background-color: variables.$danger;
-            width: 8px;
-            height: 8px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             display: none; //cambiar a display block con angular cuando haya productos en el carrito
+            //colocar delante de los demas elementos
         }
+        
     }
 }
 
@@ -98,4 +129,13 @@
         padding-left: 40px;
         color: variables.$primary;
     }
+}
+
+.scrolled {
+    background-color: variables.$white; // fondo blanco al hacer scroll
+    color: variables.$primary
+}
+.color{
+    color: variables.$primary; // color primario al hacer scrol
+    
 }

@@ -1,18 +1,20 @@
 @defer () {
-  <header class="header">
-    <app-header/>
-  </header>
-  
-  <nav class="nav">
-    <app-navbar/>
-  </nav>
-  
-  <main class="main">
-    <router-outlet />
-  </main>
-  
-  <footer class="footer">
-    <app-footer/>
-  </footer>
+  <div class="container-dashboard">
+    <header class="container-dashboard__header">
+      <app-header/>
+    </header>
+    
+    <nav class="container-dashboard__nav">
+      <app-navbar/>
+    </nav>
+    
+    <main class="container-dashboard__main">
+      <router-outlet />
+    </main>
+    
+    <footer class="container-dashboard__footer">
+      <app-footer/>
+    </footer>
+  </div>
 
 }

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Footer } from '@components/pages/footer/footer';
 import { Header } from '@components/pages/header/header';
 import { Navbar } from '@components/pages/navbar/navbar';
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',

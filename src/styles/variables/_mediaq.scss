@@ -6,7 +6,7 @@
 }
 
 @mixin tablets {
-  @media screen and (max-width:1000px){
+  @media screen and (max-width:770px){
       @content;
   }
 }
@@ -17,7 +17,7 @@
   }
 }
 @mixin small-phone {
-  @media screen and (max-width:360px){
+  @media screen and (max-width:380px){
       @content;
   }
 }

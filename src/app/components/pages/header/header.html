@@ -1,17 +1,18 @@
-<div class="container-header">
+<div class="container-header" [class.scrolled]="isScrolled">
     <div class="container-header__hamburger">
-        <i class="fa-solid fa-bars"></i>
+        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Menú" fontIcon="menu"></mat-icon>
     </div>
     <div class="container-header__logo">
-        <h1><span>V</span>IKINGO<span>T</span>ECH</h1>
+        <h1 [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-label="Nombre de la tienda"><span>V</span>IKINGO<span>T</span>ECH</h1>
     </div>
     <div class="container-header__actions">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <i class="fa-solid fa-user"></i>
-        <i class="fa-solid fa-cart-shopping"></i>
+        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart"></mat-icon>
         <div class="point-shopping"></div>
     </div>
 </div>
+
 <div class="container-search">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" placeholder="Buscar productos...">
