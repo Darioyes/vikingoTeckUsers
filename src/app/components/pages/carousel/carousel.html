@@ -1,21 +1,43 @@
 
-<div class="container-carousel">
-    <div class="container-carousel__arrow">
-        <mat-icon fontIcon="chevron_left"></mat-icon>
+@defer (when banners()!== null) {
+    <!-- <div class="container-carousel" (mouseenter)="pauseCarousel()" (mouseleave)="resumeCarousel()"> -->
+    <div class="container-carousel">
+        @if(banners().length >=2) {
+            <div class="container-carousel__arrow" (click)="prev()">
+                <mat-icon fontIcon="chevron_left"></mat-icon>
+            </div>
+
+        }
+        <div class="container-carousel__img">
+            <picture>
+                @if(banners().length >0){
+                    <source media="(min-width: 650px)" [srcset]="urlImage + banners()[currentIndex()]?.image?.replace('public', 'storage')">
+                    <img [src]="urlImage + (banners()[currentIndex()]?.image2?.replace('public', 'storage') || banners()[currentIndex()]?.image?.replace('public', 'storage'))"  alt="banner" [ngClass]="{'fade-out': isAnimating(),'fade-in': !isAnimating()}">
+                }@else{
+                    <source media="(min-width: 650px)" srcset="../../../../assets/images/1800X650.png">
+                    <img src="../../../../assets/images/545x800.webp" alt="banner">
+                }
+            </picture>
+        </div>
+
+        <div class="container-carousel__buttons">
+            <button class="btn" matButton="tonal">Agregar</button>
+            <button class="btn" matButton="filled">Ver</button>
+        </div>
+ 
+        @if(banners().length >=2) {
+
+            <div class="container-carousel__slides">
+                @for(item of banners(); track $index) {
+                 <div class="slides" [ngClass]="{'active': $index === currentIndex()}" (click)="currentIndex.set($index)"></div>
+                }
+        
+             </div>
+            <div class="container-carousel__arrow" (click)="next()">
+                <mat-icon fontIcon="chevron_right"></mat-icon>
+            </div>
+        }
     </div>
-    <div class="container-carousel__img">
-        <picture>
-            <source media="(min-width: 650px)" srcset="../../../../assets/images/1800X650.png">
-            <img src="../../../../assets/images/545x800.webp" alt="banner">
-        </picture>
-    </div>
-    <div class="container-carousel__slides">
-       <div class="slides"></div>
-       <div class="slides"></div>
-       <div class="slides"></div>
-       <div class="slides"></div>
-     </div>
-    <div class="container-carousel__arrow">
-        <mat-icon fontIcon="chevron_right"></mat-icon>
-    </div>
-</div>
+}@placeholder {
+    <p>cargando...</p>
+}

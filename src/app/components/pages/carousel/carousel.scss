@@ -1,5 +1,6 @@
 @use '../../../../../src/styles/variables/mediaq' as *;
 @use '../../../../../src/styles/variables/variables' as variables;
+@use '../../../../../src/styles/variables/button' as *;
 
 .container-carousel {
     display: flex;
@@ -33,6 +34,19 @@
             height: auto;
         } 
     }
+
+    &__buttons{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 10px;
+        position: absolute;
+        bottom: 50px;
+        padding-left: 40px;
+        z-index: 11;
+    }
+
     &__arrow{
         position: absolute;
         width: 40px;
@@ -79,8 +93,26 @@
             width: 15px;
             height: 15px;
             border-radius: 50%;
-            background-color: variables.$white-transparent;
+            background-color: variables.$white-transparent-100;
             cursor: pointer;
         }
     }
+}
+
+.active {
+    background-color: variables.$primary !important;
+
+}
+
+.container-carousel__img img {
+  opacity: 1;
+  transition: opacity .4s ease-in-out;
+}
+
+.container-carousel__img img.fade-out {
+  opacity: 0;
+}
+
+.container-carousel__img img.fade-in {
+  opacity: 1;
 }

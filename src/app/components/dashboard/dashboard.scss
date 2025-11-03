@@ -7,7 +7,13 @@
     width: 100%;
     &__header{
         position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
         z-index: 95;
+         @include tablets{
+            position: static!important;
+        }
     }
     &__nav{
         position: absolute;
@@ -18,17 +24,10 @@
 
     }
     &__main{
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        @include tablets{
-            position: static;
-        }
+        flex-grow: 1;
+
     }
 
 
-}
-.container-dashboard__header, .container-dashboard__nav, .container-dashboard__main, .container-dashboard__footer {
-    width: 100%;
+
 }

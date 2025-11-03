@@ -5,9 +5,12 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 import { errorApiInterceptor } from './interceptors/errorInterceptor/error-api-interceptor-interceptor';
+import { Banner } from '@services/banner/banner';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    Banner,
+
     // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),
 

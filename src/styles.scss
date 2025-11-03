@@ -1,8 +1,9 @@
 @use 'styles/material-theme.scss' as *;
-@use 'styles/variables/typography' as font;
-@use 'styles/variables/mediaq' as mq;
-@use 'styles/styles' as general;
-@use 'styles/variables/variables' as variables;
+@use 'styles/variables/typography' as *;
+@use 'styles/variables/mediaq' as *;
+@use 'styles/styles' as *;
+@use 'styles/variables/variables' as *;
+@use 'styles/variables/button' as *;
 
 // // Include theming for Angular Material with `mat.theme()`.
 // // This Sass mixin will define CSS variables that are used for styling Angular Material
