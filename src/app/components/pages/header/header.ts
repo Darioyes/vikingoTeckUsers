@@ -1,7 +1,8 @@
 import { NgStyle } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import { environment } from '@enviroments/environment.development';
+import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
 
 
 @Component({
@@ -15,7 +16,15 @@ import { environment } from '@enviroments/environment.development';
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header {
+export class Header implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  #navbarMenuService = inject(NavbarMenu);
+
+  public activeMenu = signal<boolean>(false);
+  
 
   isScrolled = false;
   public colorPrimary = environment.colorPrimay;
@@ -25,5 +34,19 @@ export class Header {
   onWindowScroll() {
     this.isScrolled = window.scrollY > 60; // altura en la que cambia el fondo
   }
+
+  ngOnInit(): void {
+
+  }
+  OnDestroy(): void {}
+
+  toggleMenu():void {
+    this.activeMenu.set(!this.activeMenu());
+    this.#navbarMenuService.getSubmenuActive().subscribe((value) => {
+      this.activeMenu.set(value);
+    });
+    this.#navbarMenuService.setSubmenuActive(this.activeMenu());
+  }
+  
 
 }

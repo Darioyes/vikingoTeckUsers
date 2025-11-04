@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { environment } from '@enviroments/environment.development';
 import { ICarousel } from '@interfaces/ICarousel';
 import { Banner } from '@services/banner/banner';
+import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,7 +13,8 @@ import { Subscription } from 'rxjs';
   imports: [
     MatIconModule,
     NgClass,
-    MatButtonModule
+    MatButtonModule,
+    SpinerPages
   ],
   templateUrl: './carousel.html',
   styleUrl: './carousel.scss',
@@ -45,10 +47,8 @@ export class Carousel implements OnInit, OnDestroy {
   }
 
   getBanners():void {
-    this.#bannerService.getBanners().subscribe({
+    this.#unsubscribe =this.#bannerService.getBanners().subscribe({
       next: (response) => {
-        console.log(response);
-      
         const sorted = response.sort((a, b) => a.order - b.order);
         this.banners.set(sorted);
         

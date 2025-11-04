@@ -1,8 +1,10 @@
 @use '../../../styles/variables/mediaq' as *;
+@use '../../../styles/variables/variables' as variables; ;
 
 .container-dashboard{
     position: relative;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     width: 100%;
     &__header{
@@ -16,11 +18,13 @@
         }
     }
     &__nav{
+        width: 100% !important;
+        height: 100vh !important;
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
         z-index: 100;
+        //background-color: variables.$black-transparent;
 
     }
     &__main{
@@ -31,3 +35,33 @@
 
 
 }
+
+.active{
+    animation: apearMenu .3s  both;
+}
+.inactive{
+    animation: desactiveMenu .3s both;
+}
+
+@keyframes apearMenu {
+    from{
+        opacity: .2;
+        translate: -3000px 0;
+    }
+    to{
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+@keyframes desactiveMenu {
+    from{
+        opacity: 1;
+        translate: 0 0;
+    }
+    to{
+        translate: -3000px 0;
+        opacity: .2;
+    }
+}
+

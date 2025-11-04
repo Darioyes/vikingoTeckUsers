@@ -1,1 +1,64 @@
-<p>navbar works!</p>
+<div class="container-navbar" >
+
+    <div class="container-navbar__nav">
+        <div class="container-navbar__nav--close" (click)="toggleMenu()" >
+            <mat-icon aria-hidden="false" aria-label="Cerrar menú" fontIcon="close"></mat-icon>
+        </div>
+        <div class="container-navbar__nav--user">
+            <div class="img">
+                <img src="../../../../assets/images/avatar.jpg" alt="Avatar">
+            </div>
+            <div class="perfil">
+                <p>Alejandro</p>
+                <p>Mi perfil</p>
+            </div>
+        </div>
+        <div class="container-navbar__nav--links">
+            <div class="link">
+                <mat-icon aria-hidden="false" aria-label="Ir a inicio" fontIcon="home"></mat-icon>
+                <a class="link-a" [routerLink]="['/home/principal']" routerLinkActive="active">Inicio</a>
+            </div>
+            <div class="link">
+                <mat-icon aria-hidden="false" aria-label="Mis compras" fontIcon="shopping_bag"></mat-icon>
+                <a class="link-a" href="#" routerLinkActive="active">Mis compras</a>
+            </div>
+            <div class="link">
+                <mat-icon aria-hidden="false" aria-label="Mantenimientos" fontIcon="build_circle"></mat-icon>
+                <a class="link-a" href="#" routerLinkActive="active">Mantenimientos</a>
+            </div>
+            <div class="link">
+                <mat-icon aria-hidden="false" aria-label="Categorias" fontIcon="category"></mat-icon>
+                <div class="detail">
+                    <details>
+                        <summary>Categorías</summary>
+                            <div class="submenu">
+                                <ul>
+                                    @for(category of categoriesProducts().data; track $index) {
+                                        <li><a href="">{{ category.name }}</a></li>
+                                    }
+                                </ul>
+                            </div>
+                    </details>
+                </div>
+            </div>
+            <div class="link">
+                <mat-icon aria-hidden="false" aria-label="Carrito compras" fontIcon="shopping_cart"></mat-icon>
+                <a class="link-a" href="#" routerLinkActive="active">Carrito compras</a>
+            </div>
+            <div class="link">
+                    <mat-icon aria-hidden="false" aria-label="Configuración" fontIcon="search"></mat-icon>
+                <a class="link-a" href="">Buscar</a>
+            </div>
+            <div class="link">
+                    <mat-icon aria-hidden="false" aria-label="Iniciar sesión" fontIcon="person"></mat-icon>
+                <a class="link-a" href="#">Iniciar sesión</a>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container-navbar__transparent"  
+    [ngStyle]="{'background-color': activeMenu() ? colorBlackTransparent : '', 'visibility': activeMenu() ? visibleMenu() : 'hidden' }"
+    (click)="toggleMenu()">
+        
+    </div>
+</div>

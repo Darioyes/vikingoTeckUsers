@@ -4,7 +4,7 @@
       <app-header/>
     </header>
     
-    <nav class="container-dashboard__nav">
+    <nav class="container-dashboard__nav" [ngClass]="activeMenu() ? 'active':'inactive'" >
       <app-navbar/>
     </nav>
     

@@ -1,5 +1,5 @@
 <div class="container-header" [class.scrolled]="isScrolled">
-    <div class="container-header__hamburger">
+    <div class="container-header__hamburger" (click)="toggleMenu()">
         <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Menú" fontIcon="menu"></mat-icon>
     </div>
     <div class="container-header__logo">
