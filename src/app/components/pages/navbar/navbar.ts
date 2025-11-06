@@ -1,4 +1,4 @@
-import { NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -22,18 +22,19 @@ export class Navbar implements OnInit, OnDestroy {
   #navbarMenuService = inject(NavbarMenu);
   #categoriesProductsService = inject(CategoriesProducts);
   #unsubscribe!: Subscription;
-  #router = inject(RouterModule);
+  router = inject(RouterModule);
 
   public activeMenu = signal<boolean>(true);
   public visibleMenu= signal<string>('hidden');
   public categoriesProducts = signal<any>([]);
+  public activeRoute = signal<boolean>(false);
 
   public colorBlackTransparent = environment.colorBlackTransparent;
 
   ngOnInit(): void {
     this.visibleMenu.set('visible');
     this.getCategoriesProducts();
-    console.log('URL actual ->', this.#router);
+    //console.log('URL actual ->', this.router);
   }
 
   ngOnDestroy(): void {
@@ -45,7 +46,7 @@ export class Navbar implements OnInit, OnDestroy {
   getCategoriesProducts(): void {
     this.#unsubscribe = this.#categoriesProductsService.getCategoriesProducts().subscribe({
       next: (response) => {
-        console.log(response);
+        //console.log(response);
         this.categoriesProducts.set(response);
       },
       error: (error) => {
@@ -61,12 +62,12 @@ export class Navbar implements OnInit, OnDestroy {
       if(this.activeMenu()){
         setTimeout(() => {
           this.visibleMenu.set('visible');
-        }, 300);
+        }, 600);
       }
     });
     this.#navbarMenuService.setSubmenuActive(this.activeMenu());
     this.visibleMenu.set('hidden');
   }
-  
+
 
 }

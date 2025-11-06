@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@enviroments/environment.development';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class Products {
 
   #url = environment.domain;

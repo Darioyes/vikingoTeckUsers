@@ -37,10 +37,10 @@
 }
 
 .active{
-    animation: apearMenu .3s  both;
+    animation: apearMenu .5s  both;
 }
 .inactive{
-    animation: desactiveMenu .3s both;
+    animation: desactiveMenu .5s both;
 }
 
 @keyframes apearMenu {

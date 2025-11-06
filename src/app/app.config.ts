@@ -6,10 +6,16 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 
 import { errorApiInterceptor } from './interceptors/errorInterceptor/error-api-interceptor-interceptor';
 import { Banner } from '@services/banner/banner';
+import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
+import { CategoriesProducts } from '@services/categoriesProducts/categories-products';
+import { Products } from '@services/products/products';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     Banner,
+    NavbarMenu,
+    CategoriesProducts,
+    Products,
 
     // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),

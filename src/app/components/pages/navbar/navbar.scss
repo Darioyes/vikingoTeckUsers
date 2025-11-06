@@ -100,17 +100,26 @@
                 mat-icon{
                     color: variables.$white;
                     font-size: 1.5rem;
-                    .link:hover &{
-                        color: variables.$info;
-                        transition: color 0.3s ease;
-                    }
                 }
+                
+
 
                 a, summary{
                     color: variables.$white;
                     font-size: 1.2rem;
                     text-align: left;
                 }
+                a{
+                    &:hover{
+                        color: variables.$info ;
+                        transition: color 0.3s ease;
+                    }
+                }
+                .active-nav{
+                    color: variables.$info ;
+   
+                }
+
 
                 details{
                     max-height: 34px;
@@ -167,19 +176,17 @@
                         font-size: 1rem;
                         &:hover{
                             color: variables.$info;
+                            transition: color 0.3s ease;
                         }
                     }
 
                 }
 
                 &:hover{
-                    mat-icon{
+                    summary{
                         color: variables.$info;
                         transition: color 0.3s ease;
-                    }
-                    .link-a, summary{
-                        color: variables.$info;
-                        transition: color 0.3s ease;
+                        
                     }
                 }
                 
@@ -199,9 +206,6 @@
 
 }
 
-.active{
-    color: variables.$info;
-}
 
 
 ul{
@@ -212,5 +216,35 @@ ul{
         list-style: none;
         padding: 5px 0;
     }
+}
+
+.link.active-nav {
+mat-icon,
+  > a,
+  summary {
+    color: variables.$info !important;
+  }
+
+  summary::before {
+    color: variables.$info !important;
+  }
+
+}
+
+.active-sub {
+  color: variables.$info !important;
+}
+
+.link:hover {
+mat-icon,
+  > a,
+  summary {
+    color: variables.$info !important;
+  }
+
+  summary::before {
+    color: variables.$info !important;
+  }
+
 }
 

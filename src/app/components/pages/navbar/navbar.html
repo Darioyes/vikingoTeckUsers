@@ -13,20 +13,20 @@
                 <p>Mi perfil</p>
             </div>
         </div>
-        <div class="container-navbar__nav--links">
-            <div class="link">
-                <mat-icon aria-hidden="false" aria-label="Ir a inicio" fontIcon="home"></mat-icon>
-                <a class="link-a" [routerLink]="['/home/principal']" routerLinkActive="active">Inicio</a>
+        <div class="container-navbar__nav--links" >
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }" >
+                <mat-icon aria-hidden="false" aria-label="Ir a inicio" fontIcon="home" ></mat-icon>
+                <a   (click)="toggleMenu()" [routerLink]="['/home/principal']" >Inicio</a>
             </div>
-            <div class="link">
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Mis compras" fontIcon="shopping_bag"></mat-icon>
-                <a class="link-a" href="#" routerLinkActive="active">Mis compras</a>
+                <a  (click)="toggleMenu()" [routerLink]="['/home/mis-compras']" >Mis compras</a>
             </div>
-            <div class="link">
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Mantenimientos" fontIcon="build_circle"></mat-icon>
-                <a class="link-a" href="#" routerLinkActive="active">Mantenimientos</a>
+                <a  (click)="toggleMenu()" [routerLink]="['/home/mantenimientos']" >Mantenimientos</a>
             </div>
-            <div class="link">
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Categorias" fontIcon="category"></mat-icon>
                 <div class="detail">
                     <details>
@@ -34,24 +34,24 @@
                             <div class="submenu">
                                 <ul>
                                     @for(category of categoriesProducts().data; track $index) {
-                                        <li><a href="">{{ category.name }}</a></li>
+                                        <li><a (click)="toggleMenu()"  [routerLink]="['/home/categorias', category.slug]" routerLinkActive="active-nav">{{ category.name }}</a></li>
                                     }
                                 </ul>
                             </div>
                     </details>
                 </div>
             </div>
-            <div class="link">
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Carrito compras" fontIcon="shopping_cart"></mat-icon>
-                <a class="link-a" href="#" routerLinkActive="active">Carrito compras</a>
+                <a  (click)="toggleMenu()"  [routerLink]="['/home/carrito-compras']" >Carrito compras</a>
             </div>
-            <div class="link">
-                    <mat-icon aria-hidden="false" aria-label="Configuración" fontIcon="search"></mat-icon>
-                <a class="link-a" href="">Buscar</a>
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
+                <mat-icon aria-hidden="false" aria-label="Configuración" fontIcon="search"></mat-icon>
+                <a  (click)="toggleMenu()"  [routerLink]="['/home/buscar']" >Buscar</a>
             </div>
-            <div class="link">
-                    <mat-icon aria-hidden="false" aria-label="Iniciar sesión" fontIcon="person"></mat-icon>
-                <a class="link-a" href="#">Iniciar sesión</a>
+            <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
+                <mat-icon aria-hidden="false" aria-label="Iniciar sesión" fontIcon="person"></mat-icon>
+                <a  (click)="toggleMenu()"  [routerLink]="['/home/iniciar-sesion']" >Iniciar sesión</a>
             </div>
             
         </div>
