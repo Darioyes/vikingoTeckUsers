@@ -1,8 +1,11 @@
 import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { HeaderSevice } from '@services/header/header-sevice';
 import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
+
 
 
 @Component({
@@ -17,13 +20,14 @@ import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header implements OnInit, OnDestroy {
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
+
 
   #navbarMenuService = inject(NavbarMenu);
+  #routers = inject(Router);
+  #headerService = inject(HeaderSevice);
 
   public activeMenu = signal<boolean>(false);
+  public headerWhite = signal<boolean>(false);
   
 
   isScrolled = false;
@@ -33,12 +37,24 @@ export class Header implements OnInit, OnDestroy {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 60; // altura en la que cambia el fondo
+    
   }
 
   ngOnInit(): void {
-
+    this.getWhiteHeader();
+    this.headerWhite();
   }
-  OnDestroy(): void {}
+  ngOnDestroy(): void {}
+
+  public getWhiteHeader(): void {
+      this.#headerService.getWhiteHeader().subscribe((value) => {
+      this.headerWhite.set(value);
+    });
+  }
+  
+  public setWhiteHeader(): void {
+    this.#headerService.setWhiteHeader(false);
+  }
 
   toggleMenu():void {
     this.activeMenu.set(!this.activeMenu());
@@ -48,5 +64,9 @@ export class Header implements OnInit, OnDestroy {
     this.#navbarMenuService.setSubmenuActive(this.activeMenu());
   }
   
+  navigateToHome():void {
+    this.#routers.navigate(['/home']);
+    this.#headerService.setWhiteHeader(false);
+  }
 
 }

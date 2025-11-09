@@ -6,6 +6,8 @@ import { environment } from '@enviroments/environment.development';
 import { CategoriesProducts } from '@services/categoriesProducts/categories-products';
 import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
 import { Subscription, timeInterval } from 'rxjs';
+import { Header } from '../header/header';
+import { HeaderSevice } from '@services/header/header-sevice';
 
 @Component({
   selector: 'app-navbar',
@@ -21,6 +23,7 @@ export class Navbar implements OnInit, OnDestroy {
 
   #navbarMenuService = inject(NavbarMenu);
   #categoriesProductsService = inject(CategoriesProducts);
+  #headerService = inject(HeaderSevice);//servicion del header que cambia de color segun la pagina
   #unsubscribe!: Subscription;
   router = inject(RouterModule);
 
@@ -55,7 +58,7 @@ export class Navbar implements OnInit, OnDestroy {
     });
   }
 
-  toggleMenu():void {
+  toggleMenu(white:boolean=false):void {
     this.activeMenu.set(!this.activeMenu());
     this.#navbarMenuService.getSubmenuActive().subscribe((value) => {
       this.activeMenu.set(value);
@@ -67,6 +70,16 @@ export class Navbar implements OnInit, OnDestroy {
     });
     this.#navbarMenuService.setSubmenuActive(this.activeMenu());
     this.visibleMenu.set('hidden');
+    this.#headerService.setWhiteHeader(white);
+  }
+
+  whiteHeader(white:boolean):void {
+    // this.#headerService.getWhiteHeader().subscribe((value) => {
+    //   this.activeMenu.set(value);
+
+    // });
+    this.#headerService.setWhiteHeader(white);
+
   }
 
 

@@ -28,10 +28,19 @@
 
     }
     &__main{
-        flex-grow: 1;
+         position: static;
 
     }
-
+    &__footer{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+         @include tablets{
+            position: static;
+        }
+    }
 
 
 }

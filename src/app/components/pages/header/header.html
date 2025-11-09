@@ -1,14 +1,14 @@
-<div class="container-header" [class.scrolled]="isScrolled">
+<div class="container-header" [ngStyle]="{'background-color': isScrolled || headerWhite()? colorWhite: 'transparent', 'color': isScrolled ? colorPrimary : colorWhite }">
     <div class="container-header__hamburger" (click)="toggleMenu()">
-        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Menú" fontIcon="menu"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Menú" fontIcon="menu"></mat-icon>
     </div>
     <div class="container-header__logo">
-        <h1 [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-label="Nombre de la tienda"><span>V</span>IKINGO<span>T</span>ECH</h1>
+        <h1 [ngStyle]="{'color': isScrolled || headerWhite()? colorPrimary : '' }" aria-label="Nombre de la tienda" (click)="navigateToHome()"><span>V</span>IKINGO<span>T</span>ECH</h1>
     </div>
     <div class="container-header__actions">
-        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
-        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person"></mat-icon>
-        <mat-icon [ngStyle]="{'color': isScrolled ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person"></mat-icon>
+        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart"></mat-icon>
         <div class="point-shopping"></div>
     </div>
 </div>

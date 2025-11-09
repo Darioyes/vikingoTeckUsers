@@ -16,15 +16,15 @@
         <div class="container-navbar__nav--links" >
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }" >
                 <mat-icon aria-hidden="false" aria-label="Ir a inicio" fontIcon="home" ></mat-icon>
-                <a   (click)="toggleMenu()" [routerLink]="['/home/principal']" >Inicio</a>
+                <a   (click)="toggleMenu(false)" [routerLink]="['/home/principal']" >Inicio</a>
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Mis compras" fontIcon="shopping_bag"></mat-icon>
-                <a  (click)="toggleMenu()" [routerLink]="['/home/mis-compras']" >Mis compras</a>
+                <a  (click)="toggleMenu(true)"  [routerLink]="['/home/mis-compras']" >Mis compras</a>
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Mantenimientos" fontIcon="build_circle"></mat-icon>
-                <a  (click)="toggleMenu()" [routerLink]="['/home/mantenimientos']" >Mantenimientos</a>
+                <a  (click)="toggleMenu(true)"  [routerLink]="['/home/mantenimientos']" >Mantenimientos</a>
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Categorias" fontIcon="category"></mat-icon>
@@ -34,7 +34,7 @@
                             <div class="submenu">
                                 <ul>
                                     @for(category of categoriesProducts().data; track $index) {
-                                        <li><a (click)="toggleMenu()"  [routerLink]="['/home/categorias', category.slug]" routerLinkActive="active-nav">{{ category.name }}</a></li>
+                                        <li><a (click)="toggleMenu(true)" (click)="whiteHeader(true)" [routerLink]="['/home/categorias', category.slug]" routerLinkActive="active-nav">{{ category.name }}</a></li>
                                     }
                                 </ul>
                             </div>
@@ -43,22 +43,22 @@
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Carrito compras" fontIcon="shopping_cart"></mat-icon>
-                <a  (click)="toggleMenu()"  [routerLink]="['/home/carrito-compras']" >Carrito compras</a>
+                <a  (click)="toggleMenu(true)" (click)="whiteHeader(true)" [routerLink]="['/home/carrito-compras']" >Carrito compras</a>
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Configuración" fontIcon="search"></mat-icon>
-                <a  (click)="toggleMenu()"  [routerLink]="['/home/buscar']" >Buscar</a>
+                <a  (click)="toggleMenu(true)" (click)="whiteHeader(true)" [routerLink]="['/home/buscar']" >Buscar</a>
             </div>
             <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
                 <mat-icon aria-hidden="false" aria-label="Iniciar sesión" fontIcon="person"></mat-icon>
-                <a  (click)="toggleMenu()"  [routerLink]="['/home/iniciar-sesion']" >Iniciar sesión</a>
+                <a  (click)="toggleMenu(true)" (click)="whiteHeader(true)" [routerLink]="['/home/iniciar-sesion']" >Iniciar sesión</a>
             </div>
             
         </div>
     </div>
     <div class="container-navbar__transparent"  
     [ngStyle]="{'background-color': activeMenu() ? colorBlackTransparent : '', 'visibility': activeMenu() ? visibleMenu() : 'hidden' }"
-    (click)="toggleMenu()">
+    (click)="toggleMenu(true)">
         
     </div>
 </div>

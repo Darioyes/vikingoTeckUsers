@@ -14,7 +14,7 @@
             padding: 18px 20px;
         }
     &:hover{
-        background-color: variables.$white;
+        background-color: variables.$white !important;
         transition: background-color 0.3s ease;
     }
     &__hamburger{
