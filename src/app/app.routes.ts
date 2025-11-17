@@ -53,6 +53,11 @@ export const routes: Routes = [
                 title: 'vikingoTech - Iniciar Sesión',
                 loadComponent: () => import('./components/pages/login/login').then(c => c.Login),
             },
+            {
+                path: 'producto/:slug',
+                title: 'vikingoTech - Producto',
+                loadComponent: () => import('./components/pages/product/product').then(c => c.Product),
+            },
         ],
     },
    

@@ -9,7 +9,7 @@ import { HeaderSevice } from '@services/header/header-sevice';
 })
 export class Login implements OnInit, OnDestroy {
 
-   #headerService = inject(HeaderSevice)
+  #headerService = inject(HeaderSevice)
   
   public headerWhite = signal<boolean>(false);
 

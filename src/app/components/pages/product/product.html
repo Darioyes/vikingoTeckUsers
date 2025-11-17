@@ -1,0 +1,102 @@
+<script data-bold-button data-api-key="LLAVE_DE_IDENTIDAD"></script>
+
+@defer (when successMessage() === 'success') {
+<div class="container-product">
+    <div class="container-product__image"   
+        (touchstart)="onTouchStart($event)"
+        (touchend)="onTouchEnd($event)"
+        (mousedown)="onTouchStart($event)"
+        (mouseup)="onTouchEnd($event)">
+        <img [src]="images()[currentImage()] ? urlImage + images()[currentImage()]?.replace('public', 'storage') : ''" [alt]="product()?.name">
+
+        <div class="slide">
+
+            <div class="slide-arrow" (click)="prev()" >
+                @if (images().length > 1) {
+                    <mat-icon fontIcon="chevron_left"></mat-icon>
+                }
+            </div>
+            <div class="slide-slides">
+                @if (images().length > 1) {
+                    <div class="slide-slides">
+                        @for (img of images();let i = $index; track i) {
+                            <div class="point" [class.active]="currentImage() === i" (click)="selectImage(i)"></div>
+                        }
+                    </div>
+
+                }
+            </div>
+            <div class="slide-arrow" (click)="next()" >
+                @if (images().length > 1) {
+                    <mat-icon fontIcon="chevron_right"></mat-icon>
+                }
+            </div>
+        </div>
+        <!-- Miniaturas clickeables -->
+        <div class="thumbnails">
+        @for (img of images(); let i = $index; track i) {
+            <img
+            class="thumb"
+            [class.active]="currentImage() === i"
+            [src]="urlImage  + img.replace('public', 'storage')"
+            (click)="selectImage(i)"
+            />
+        }
+        </div>
+
+
+    </div>
+    <div class="container-product__detail">
+        <div class="container-product__detail--description">
+            <h2>{{ product()?.name }}</h2>
+            <p>{{ product()?.description }}</p>
+            <p>${{ product()?.sale_price |number}}</p>
+        </div>
+
+        <div class="container-product__detail--reference">
+            <div class="items">
+                <p>Referencia:</p>
+                <span>{{ product()?.reference }}</span>
+            </div>
+            <div class="items">
+                <p>Categoría:</p>
+                <span>{{ product()?.categories_products?.name }}</span>
+            </div>
+            <div class="items">
+                <p>Color:</p>
+                <span>{{ product()?.color }}</span>
+            </div>
+        </div>
+
+        <div class="container-product__detail--units">
+            <div class="items">
+                <p>Disponible:</p>
+                <span>{{ product()?.stock |number}} {{ product()?.stock <= 1 ? 'unidad' : 'unidades' }}</span>
+            </div>
+            <div class="amount">
+                <h3>Cantidad</h3>
+                <div class="plus">
+                    <button  matButton="tonal" (click)="decrease()" >-</button>
+                    <input 
+                    type="number" 
+                    [value]="quantity()" 
+                    (input)="quantity.set($any($event.target).valueAsNumber)"
+                    min="1">
+                    <button matButton="filled" (click)="increase()" >+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-product__detail--buttons">
+            <button class="btn" matButton="tonal">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
+            <button class="btn" matButton="filled" >Reservar</button>
+            <button class="btn" matButton="filled" >Botón Bold</button>
+            <!-- <script data-bold-button data-api-key="P_hrospx9g2P9pQG0Z5exOh-R9UcfDEjzYeHqkZx0tw" data-description="Pago de mi reserva dinámica" data-redirection-url="https://micomercio.com/pagos/resultado"></script> -->
+        </div>
+
+    </div>
+</div>
+
+}@placeholder {
+    <app-spiner-pages />
+}

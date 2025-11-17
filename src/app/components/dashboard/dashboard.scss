@@ -5,8 +5,10 @@
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: column;
     width: 100%;
+    min-height: 100vh;
     &__header{
         position: fixed;
         top: 0;
@@ -28,7 +30,7 @@
 
     }
     &__main{
-         position: static;
+        width: 100%;
 
     }
     &__footer{
