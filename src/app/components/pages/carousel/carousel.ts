@@ -32,9 +32,7 @@ export class Carousel implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getBanners();
-    this.intervalId = setInterval(() => {
-      this.next();
-  }, 10000); // 10 segundos
+    this.resumeCarousel();
   }
 
   ngOnDestroy(): void {
@@ -44,6 +42,7 @@ export class Carousel implements OnInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    this.pauseCarousel();
   }
 
   getBanners():void {

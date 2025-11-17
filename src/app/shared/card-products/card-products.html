@@ -1,0 +1,27 @@
+<div class="container-cardproducts">
+    <div class="container-cardproducts__image">
+        <img [src]="image()" [alt]="name()">
+    </div>
+    <div class="container-cardproducts__title">
+        <p>{{name()}}</p>
+        @if (color() != '' || color() != null) {
+            <p>{{color()}}</p>
+
+        }
+        <p>${{price()| number}}</p>
+        @if(stock() <= 0){
+            <p class="stock-out">No disponible</p>
+        }@else{
+            <p>{{stock()| number}} {{stock() == 1 ? 'Disponible' : 'Disponibles'}}</p>
+        }
+    </div>
+    <div class="container-cardproducts__buttons">
+        @if(stock() <= 0){
+            <button class="btn" matButton="tonal" disabled>Agotado</button>
+        }@else{
+            <button class="btn" matButton="tonal">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
+            <button class="btn" matButton="filled">Ver</button>
+        }
+    </div>
+    
+</div>

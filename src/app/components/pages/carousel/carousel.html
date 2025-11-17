@@ -18,6 +18,7 @@
                     <img src="../../../../assets/images/545x800.webp" alt="banner">
                 }
             </picture>
+            
         </div>
 
         <div class="container-carousel__buttons">
@@ -32,7 +33,7 @@
                  <div class="slides" [ngClass]="{'active': $index === currentIndex()}" (click)="currentIndex.set($index)"></div>
                 }
         
-             </div>
+            </div>
             <div class="container-carousel__arrow" (click)="next()">
                 <mat-icon fontIcon="chevron_right"></mat-icon>
             </div>

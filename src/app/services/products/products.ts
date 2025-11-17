@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@enviroments/environment.development';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class Products {
@@ -8,7 +9,7 @@ export class Products {
   #url = environment.domain;
   #http = inject(HttpClient);
 
-  getProducts() { 
+  getProducts(): Observable<any> { 
     const headers = {
       'Accept': 'application/json',
     };

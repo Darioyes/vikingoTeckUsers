@@ -1,0 +1,74 @@
+@use './../../../styles/variables/button' as *;
+@use './../../../styles/variables/variables' as *;
+
+.container-cardproducts{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid $gray-500;
+    border-radius: 5px;
+    padding-bottom: 20px;
+
+    &__image{
+        width: 100%;
+
+        img{
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            width: 100%;
+            //19:9 aspect ratio
+            aspect-ratio: 19 / 9;
+
+        }
+    }
+    &__title{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0 8px;
+        p{
+            font-size: 1rem;
+            letter-spacing: .5px;
+            font-weight: 100;
+        }
+
+        //primer hijo p
+        p:first-child{
+            font-size: 1.3rem;font-weight: 600;
+            padding-bottom: 15px;
+        }
+        //segundo hijo p
+        p:nth-child(2){
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: capitalize;
+        }
+
+        //ultimo hijo p
+        p:last-child{
+            padding-bottom: 10px;
+        }
+    }
+
+    &__buttons{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        button{
+            mat-icon{
+                color:$primary;
+            }
+        }
+        //primer hijo button
+        button:first-child{
+            color:$primary
+        }
+    }
+
+}
