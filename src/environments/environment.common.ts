@@ -1,9 +1,9 @@
 export const commonEnvironment = {
   //declaramos la variable de la url de la api
-  domain: 'https://vikingotech.dariocode.com/api/',
-  domainimage:'https://vikingotech.dariocode.com/',
-  //domain: 'http://127.0.0.1:8000/api/',
-  //domainimage:'http://127.0.0.1:8000/',
+  //domain: 'https://vikingotech.dariocode.com/api/',
+  //domainimage:'https://vikingotech.dariocode.com/',
+  domain: 'http://127.0.0.1:8000/api/',
+  domainimage:'http://127.0.0.1:8000/',
   titleApp: 'VikingoTech',
   colorPrimay: '#00264d',
   colorSecundary: '#6C757D',

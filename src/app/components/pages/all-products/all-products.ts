@@ -2,12 +2,14 @@ import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { environment } from '@enviroments/environment.development';
 import { Products } from '@services/products/products';
 import { CardProducts } from '@shared/card-products/card-products';
+import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-all-products',
   imports: [
-    CardProducts
+    CardProducts,
+    SpinerPages
   ],
   templateUrl: './all-products.html',
   styleUrl: './all-products.scss',
