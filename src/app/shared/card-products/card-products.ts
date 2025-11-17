@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './card-products.html',
   styleUrl: './card-products.scss',
 })
-export class CardProducts {
+export class CardProducts implements OnInit {
 
   public id = input<number>(1);
   public image = input<string>('./../../../assets/images/imagenPrueba.jpg');
@@ -21,5 +21,10 @@ export class CardProducts {
   public price = input<number>(1000000);
   public stock = input<number>(1);
   public color = input<string>('color');
+  public slug = input<string>('nombre-del-producto-de-lo-mejor-que-hay-en-vikingotech');
+
+  ngOnInit(): void {
+
+  }
 
 }
