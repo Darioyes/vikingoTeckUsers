@@ -53,5 +53,16 @@
 
 @font-face {
   font-family: font.$main-family-Audiowide-Regular;
-  src: url('../assets/fonts/audiowide/Audiowide-Regular.ttf') format('truetype');
+  src: url('./../assets/fonts/audiowide/Audiowide-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: font.$main-family-BankGothic-LightRegular;
+  src: url('./../assets/fonts/bankgothic/BankGothic-LightRegular.otf') format('truetype');
+}
+
+
+@font-face {
+  font-family: font.$main-family-BankGothic-Bold;
+  src: url('./../assets/fonts/bankgothic/BankGothic-Bold.ttf') format('truetype');
 }

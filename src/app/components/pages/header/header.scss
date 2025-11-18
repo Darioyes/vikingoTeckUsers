@@ -1,5 +1,5 @@
 @use '../../../../styles/variables/variables' as variables;
-@use '../../../../styles/variables/typography' as typography;
+@use '../../../../styles/variables/typography' as *;
 @use '../../../../../src/styles/variables/mediaq' as *;
 
 .container-header{
@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 60px;
+    padding: 10px 40px;
         @include tablets{
             background-color: variables.$white;
             padding: 18px 20px;
@@ -18,12 +18,29 @@
         transition: background-color 0.3s ease;
     }
     &__hamburger{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        width: 40px;
+        height: 40px;
+        padding: 0;
         cursor: pointer;
+        text-align: center;
+        @include phone{
+            gap: 20px;
+        }
         mat-icon{
-            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            
+            font-size: 2rem;
             color: variables.$white;
             @include tablets{
                 color: variables.$primary;
+                font-size: 1.5rem;
+                padding-top: 8px;
             }
             //cuando le haga hover al header el color del icono cambia
             .container-header:hover &{
@@ -31,10 +48,23 @@
                 transition: color 0.3s ease;
             }
         }
+        img{
+            width: 70px;
+            height: 70px;
+            padding: 0;
+            @include phone{
+                width: 50px;
+                height: 50px;
+            }
+        }
     }
     &__logo{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         h1{
-            font-family: typography.$main-family-Audiowide-Regular;
+            font-family: $main-family-Audiowide-Regular;
+
             font-size: 2.1rem;
             text-align: center;
             letter-spacing: 5px;
@@ -42,7 +72,8 @@
             cursor: pointer;
                 @include tablets{
                     color: variables.$primary;
-                    font-size: 1.8rem;
+                    font-size: 1.5rem;
+                    letter-spacing: .5px;
                 }
                 @include phone{
                     font-size: 1.4rem;
@@ -57,20 +88,41 @@
                 font-weight: 700;
             }
         }
+        img{
+            width: 80px;
+            height: 80px;
+            padding: 0;
+                @include phone{
+                width: 50px;
+                height: 50px;
+            }
+        }
+
     }
     &__actions{
         position: relative;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 10px;
         font-size: 1.2rem;
+        @include tablets{
+            gap: 2px;
+        }
         
         mat-icon{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
         cursor: pointer;
         color: variables.$white;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
             @include tablets{
+                width: 40px;
+                height: 40px;
                 color: variables.$primary;
+                font-size: 1.2rem;
             }
             .container-header:hover &{
                 color: variables.$primary;
@@ -85,6 +137,15 @@
                 }
             }
 
+        }
+        img{
+            width: 70px;
+            height: 70px;
+            padding: 0;
+                @include phone{
+                width: 40px;
+                height: 40px;
+            }
         }
 
         .point-shopping{
@@ -114,12 +175,12 @@
         border: none;
         font-size: 1.3rem;
         outline: none;
-        font-family: typography.$main-family-Roboto-Regular;
+        font-family: $main-family-Roboto-Regular;
         //cambiar el color del texto que va dentro del input
         color: variables.$primary;
         &::placeholder{
             color: variables.$gray-600;
-            font-family: typography.$main-family-Roboto-Regular;
+            font-family: $main-family-Roboto-Regular;
         }
     }
     i{  

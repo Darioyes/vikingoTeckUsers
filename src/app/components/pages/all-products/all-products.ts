@@ -36,9 +36,10 @@ export class AllProducts implements OnInit, OnDestroy {
   getProducts():void {
     this.#unsubscribe = this.#productsService.getProducts().subscribe({
       next: (response) => {
-        this.products.set(response.data);
+        this.products.set(response.data.data);
         this.successMessage.set(response.response);
         console.log(this.products());
+        console.log(response);
       },
       error: (error) => {
         console.error(error);

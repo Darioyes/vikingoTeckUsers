@@ -1,1 +1,22 @@
-<p>categories works!</p>
+<div class="container-products">
+    <div class="container-products__title">
+        <h2>{{ categoryName()}}</h2>
+    </div>
+    @defer (when successMessage() === 'success') {
+    <div class="container-products__list">
+        @for (item of products(); track $index) {
+            <app-card-products
+                [id]="item.id"
+                [image]="urlImage+item.image1.replace('public', 'storage')"
+                [name]= "item.name"
+                [price]="item.sale_price"
+                [stock]="item.stock"
+                [color]="item.color"
+                [slug]="item.slug"
+            />
+        }
+    </div>
+    }@placeholder {
+        <app-spiner-pages/>
+    }
+</div>

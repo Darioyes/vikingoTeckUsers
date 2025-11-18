@@ -4,11 +4,13 @@
     </div>
     <div class="container-header__logo">
         <h1 [ngStyle]="{'color': isScrolled || headerWhite()? colorPrimary : '' }" aria-label="Nombre de la tienda" (click)="navigateToHome()"><span>V</span>IKINGO<span>T</span>ECH</h1>
+
     </div>
     <div class="container-header__actions">
         <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
         <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person"></mat-icon>
         <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart"></mat-icon>
+        <img src="../../../../assets/images/vikingoTechimg.png" alt="vikingoTech">
         <div class="point-shopping"></div>
     </div>
 </div>

@@ -23,5 +23,13 @@ export class Products {
     };
     return this.#http.get(`${this.#url}vikingousers/products/${slug}`, { headers });
   }
+
+  //servicio para obtener productos por categoria
+  getProductsByCategory(categorySlug: string): Observable<any> { 
+    const headers = {
+      'Accept': 'application/json',
+    };
+    return this.#http.get(`${this.#url}vikingousers/products/category/${categorySlug}`, { headers });
+  }
   
 }

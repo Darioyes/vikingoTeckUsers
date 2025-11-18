@@ -1,5 +1,6 @@
 @use '../../../../styles/variables/button' as *;
 @use '../../../../styles/variables/variables' as *;
+@use '../../../../styles/variables/mediaq' as *;
 
 .container-product{
     width: 100%;
@@ -9,7 +10,13 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 90px 10px 30px 10px;
+    padding: 140px 10px 30px 10px;
+    @include tablets{
+        padding: 20px 10px;
+    }
+    @include phone{
+        padding: 0 10px;
+    }
     &__image{
         display: flex;
         align-items: center;

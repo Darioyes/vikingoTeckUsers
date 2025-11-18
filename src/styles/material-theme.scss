@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
-@use 'variables/typography' as font;
+@use 'variables/typography' as *;
 
 
 // src/styles.scss
@@ -91,7 +91,7 @@ html.dark-mode {
 
 /* Mantén tus imports y reglas globales debajo si las tienes */
 //html, body { height: 100%; }
-//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//body { margin: 0;  }
 
 
 // IMPORTACIÓN ÚNICA (Recomendada por Angular)
