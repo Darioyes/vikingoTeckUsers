@@ -43,6 +43,11 @@ export class Product implements OnInit, OnDestroy {
   public images = signal<string[]>([]);
   public successMessage = signal<string>('');
 
+  public zoomActive = signal(false);
+  public zoomPosition = signal('50% 50%');
+  public lensX = signal('0px');
+  public lensY = signal('0px');
+
   public quantity = signal(1);
 
   
@@ -140,6 +145,35 @@ export class Product implements OnInit, OnDestroy {
 
   public decrease() {
     this.quantity.update(q => q > 1 ? q - 1 : 1);
-  } 
+  }
+  
+  public onMouseEnter() {
+  this.zoomActive.set(true);
+}
+
+public onMouseLeave() {
+  this.zoomActive.set(false);
+}
+
+public onMouseMove(event: MouseEvent) {
+  const img = event.target as HTMLElement;
+  const rect = img.getBoundingClientRect();
+
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  const posXPercent = (x / rect.width) * 100;
+  const posYPercent = (y / rect.height) * 100;
+
+  // Zona de zoom dentro de background
+  this.zoomPosition.set(`${posXPercent}% ${posYPercent}%`);
+
+  // Posición de la lupa
+  const lensSize = 150; // tamaño de la lupa
+  this.lensX.set(`${x - lensSize / 2}px`);
+  this.lensY.set(`${y - lensSize / 2}px`);
+}
+
+  
 
 }

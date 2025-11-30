@@ -7,7 +7,18 @@
         (touchend)="onTouchEnd($event)"
         (mousedown)="onTouchStart($event)"
         (mouseup)="onTouchEnd($event)">
-        <img [src]="images()[currentImage()] ? urlImage + images()[currentImage()]?.replace('public', 'storage') : ''" [alt]="product()?.name">
+        <img [src]="images()[currentImage()] ? urlImage + images()[currentImage()]?.replace('public', 'storage') : ''" [alt]="product()?.name"
+        (mousemove)="onMouseMove($event)"
+        (mouseenter)="onMouseEnter()"
+        (mouseleave)="onMouseLeave()">
+        <div 
+        class="zoom-lens" 
+        [style.background-image]="'url(' + (images()[currentImage()] ? urlImage + images()[currentImage()].replace('public', 'storage') : '') + ')'"
+        [style.background-position]="zoomPosition()"
+        [style.left]="lensX()"
+        [style.top]="lensY()"
+        [class.active]="zoomActive()"
+        ></div>
 
         <div class="slide">
 
@@ -31,6 +42,13 @@
                     <mat-icon fontIcon="chevron_right"></mat-icon>
                 }
             </div>
+        </div>
+        <div 
+            class="image-zoom" 
+            [style.background-image]="'url(' + (images()[currentImage()] ? urlImage + images()[currentImage()].replace('public', 'storage') : '') + ')'"
+            [class.active]="zoomActive()"
+            [style.background-position]="zoomPosition()"
+            >
         </div>
         <!-- Miniaturas clickeables -->
         <div class="thumbnails">
@@ -81,7 +99,9 @@
                     type="number" 
                     [value]="quantity()" 
                     (input)="quantity.set($any($event.target).valueAsNumber)"
-                    min="1">
+                    min="1"
+                    [max]="product()?.stock"
+                    />
                     <button matButton="filled" (click)="increase()" >+</button>
                 </div>
             </div>

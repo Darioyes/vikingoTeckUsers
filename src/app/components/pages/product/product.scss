@@ -31,6 +31,7 @@
         img{
             width: 100%;
             aspect-ratio: 16 / 9;
+            cursor: zoom-in;
         }
         .slide{
             width: 100%;
@@ -241,6 +242,66 @@
 
     &:hover {
       opacity: 1;
+    }
+  }
+}
+
+.image-zoom {
+  position: absolute;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 300px;
+  border: 2px solid $primary;
+  background-repeat: no-repeat;
+  background-size: 300%;
+  border-radius: 6px;
+  display: none;
+  z-index: 50;
+
+  &.active {
+    display: block;
+  }
+}
+
+.container-product__image {
+  position: relative;
+}
+
+@include phone {
+  .image-zoom {
+    display: none !important;
+  }
+}
+
+.container-product__image {
+  position: relative;
+
+  img {
+    display: block;
+  }
+
+  .zoom-lens {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid $primary;
+    background-repeat: no-repeat;
+    background-size: 300%; // Fuerza del zoom (puedes subirlo)
+    pointer-events: none;
+    transform: scale(0);
+    opacity: 0;
+    transition: 
+      transform .25s ease-out,
+      opacity .25s ease-out,
+      left .08s linear,
+      top .08s linear;
+    z-index: 999;
+
+    &.active {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }
