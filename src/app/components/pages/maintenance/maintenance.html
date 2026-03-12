@@ -1,1 +1,103 @@
-<p>maintenance works!</p>
+<div class="container-maintenance">
+@defer (when maintenanceData()?.response === 'success') {
+        @let maintenance = maintenanceData();
+        @for (item of maintenance?.data; track $index) {
+    
+            <div class="container-maintenance__title">
+                <h2>Mantenimiento {{item.product}}</h2>
+            </div>
+            <div class="container-maintenance__content">
+                <div class="container-maintenance__content--advance">
+                    <div class="container-advance">
+                        <div class="container-advance--title">
+                            <h3>{{ name }} este es el avance del mantenimiento {{item.product}} y podriamos requerir de alguna autorización en el paso 3</h3>
+                        </div>
+                        <div class="container-advance__items">
+                            <div class="container-advance__items--circle" >
+                                <div class="circle" [ngStyle]="{'border': item.advance!=='joined' ? '1px solid'+ success:'1px solid'+ warning}">
+                                    <mat-icon [fontIcon]=" item.advance!== 'joined' ? 'done':'construction'" [ngStyle]="{'background': item.advance==='joined' ? warning : success}"></mat-icon>
+                                </div>
+                                <p [ngStyle]="{'color': item.advance==='joined' ? warning : success, 'font-weight': item.advance==='joined' ? 'bold' : 'normal'}">Recibido</p>
+                            </div>
+                            <div class="container-advance__items--line" [ngStyle]="{'background': item.advance==='joined' ? warning : success}"></div>
+                            <div class="container-advance__items--circle" >
+                                <div class="circle" [ngStyle]="{'border': item.advance==='in_progress' ? '1px solid'+ warning : item.advance==='authorization'|| item.advance==='finalized' ? '1px solid'+success:'1px solid'+primary}" >
+                                    <mat-icon [fontIcon]="item.advance==='in_progress' ? 'build' : item.advance==='authorization'|| item.advance==='finalized' ? 'done' : 'build'" [ngStyle]="{'background': item.advance==='in_progress' ? warning : item.advance==='authorization'|| item.advance==='finalized' ? success : primary}"></mat-icon>
+                                </div>
+                                <p [ngStyle]="{'color': item.advance==='in_progress' ? warning : item.advance==='authorization'|| item.advance==='finalized' ? success : primary}">En Progreso</p>
+                            </div>
+                            <div class="container-advance__items--line" [ngStyle]="{'background': item.advance==='in_progress' ? warning : item.advance==='authorization'|| item.advance==='finalized' ? success : primary}"></div>
+                            <div class="container-advance__items--circle" >
+                                <div class="circle" [ngStyle]="{'border': item.advance==='authorization' ? '1px solid'+ danger : item.advance==='finalized' ? '1px solid'+success:'1px solid'+primary}" >
+                                    <mat-icon [fontIcon]="item.advance==='authorization' ? 'how_to_reg' : item.advance==='finalized' ? 'done' : 'how_to_reg'" [ngStyle]="{'background': item.advance==='authorization' ? danger : item.advance==='finalized' ? success : primary}"></mat-icon>
+                                </div>
+                                <p [ngStyle]="{'color': item.advance==='authorization' ? danger : item.advance==='finalized' ? success : primary}">Autorización</p>
+                            </div>
+                            <div class="container-advance__items--line" [ngStyle]="{'background': item.advance==='authorization' ? danger : item.advance==='finalized' ? success : primary}" ></div>
+                            <div class="container-advance__items--circle" >
+                                <div class="circle" [ngStyle]="{'border': item.advance==='finalized' ? '1px solid'+ success:'1px solid'+primary}" >
+                                    <mat-icon fontIcon="done" [ngStyle]="{'background': item.advance==='finalized' ? success : primary}"></mat-icon>
+                                </div>
+                                <p [ngStyle]="{'color': item.advance==='finalized' ? success : primary}">Finalizado</p>
+                            </div>
+                        </div>
+                        @if(item.advance === 'finalized'){
+                            <div class="container-advance--title">
+                                <h3>{{ name }}, ya terminamos el proceso de mantenimiento puedes pasar a recoger tu {{item.product}} </h3>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="container-maintenance__content--info">
+                    <div class="container-info">
+                        <label for="create-at">Fecha de Recibido:</label>
+                        <p>{{ item.created_at | date:'dd-MMMM-yyyy' }}</p>
+                    </div>
+                    <div class="container-info">
+                        <label for="price">Costo:</label>
+                        <p>${{ item.price | number:'1.' }}</p>
+                    </div>
+                    <div class="container-info">
+                        <label for="reference">Referencia:</label>
+                        <p>{{ item.reference }}</p>
+                    </div>
+                    <div class="container-info">
+                        <label for="description">Descripción:</label>
+                        <p>{{ item.description }}</p>
+                    </div>
+                </div> 
+            </div>
+            <div class="container-maintenance__images">
+                @if(item.image1){
+                    <div>
+                        <img [src]=" urlImage + item?.image1?.replace('public', 'storage')" [alt]="item.product+'-'+1">
+                    </div>
+                }
+                @if(item.image2){
+                    <div>
+                        <img [src]="urlImage + item?.image2?.replace('public', 'storage')" [alt]="item.product+'-'+2">
+                    </div>
+                }
+                @if(item.image3){
+                    <div>
+                        <img [src]="urlImage + item?.image3?.replace('public', 'storage')" [alt]="item.product+'-'+3">
+                    </div>
+                }
+                @if(item.image4){
+                    <div>
+                        <img [src]="urlImage + item?.image4?.replace('public', 'storage')" [alt]="item.product+'-'+4">
+                    </div>
+                }
+            </div>
+        }@empty {
+            <div class="container-maintenance__title">
+                <h2>No tiene Mantenimientos pendientes</h2>
+            </div>
+            <div class="container-maintenance__images">
+                <p>Recuerde que el mantenimiento es un proceso que se realiza para garantizar el buen funcionamiento de su producto, si tiene algún inconveniente con su producto no dude en contactarnos para brindarle la mejor solución.</p>
+            </div>
+        } 
+    }@placeholder {
+        <app-spiner-pages />
+    }
+</div>

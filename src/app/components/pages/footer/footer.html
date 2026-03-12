@@ -22,7 +22,9 @@
     <div class="cotainer-footer__about">
         <h3>Cuenta</h3>
         <div class="cotainer-footer__about--text">
-            <a href="#">Iniciar sesión</a>
+            @if(!(LoggeInService.isLoggedIn$ | async) ){
+                <a (click)="navigateToLogin()">Iniciar sesión</a>
+            }
             <a href="#">Registrarse</a>
             <a href="#">Carrito de compras</a>
         </div>

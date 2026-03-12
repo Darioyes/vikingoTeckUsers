@@ -32,6 +32,7 @@ export const routes: Routes = [
                 path: 'mantenimientos',
                 title: 'vikingoTech - Mantenimientos',
                 loadComponent: () => import('./components/pages/maintenance/maintenance').then(c => c.Maintenance),
+                canActivate: [authGuard],
             },
             {
                 path: 'categorias/:slug',

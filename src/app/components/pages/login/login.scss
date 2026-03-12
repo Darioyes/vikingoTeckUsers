@@ -1,0 +1,123 @@
+@use '../../../../styles/variables/variables' as *;
+@use '../../../../styles/variables/mediaq' as *;
+@use '../../../../styles/variables/button' as *;
+
+.container-login{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    padding: 140px 10px 20px 10px;
+        @include tablets {
+        padding-top: 20px;
+    }
+    h2{
+        width: 100%;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: capitalize;
+        color: $primary;
+        @include phone {
+            font-size: 1.4rem;
+        }
+         @include small-phone{
+            font-size: 1rem;
+        }
+    }
+    .container-login__form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .form-login{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            &__logo{
+               width: 170px;
+               height: 170px;
+               img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
+                    object-fit: cover;
+               }
+            }
+            &__user{
+                width: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                gap: 40px;
+                &--email,&--password{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    mat-icon{
+                        width:60px;
+                        height: 40px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                        color: $white;
+                        background: $primary;
+                        padding: 8px;
+                        font-size: 25px;
+                        cursor: pointer;
+                        @include phone {
+                            width: 45px;
+                        }
+                    }
+                    input{
+                        width: calc(100% - 60px);
+                        height: 40px;
+                        border: 1px solid $primary;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        padding: 0 10px;
+                        font-size: 16px;
+                        outline: none;
+                        @include phone {
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+            &__btn{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            &__links{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding-bottom: 20px;
+                gap: 10px;
+                a{
+                    color: $primary;
+                    font-size: 1rem;
+                    text-decoration: none;
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}

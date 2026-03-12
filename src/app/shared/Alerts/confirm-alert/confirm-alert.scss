@@ -1,0 +1,93 @@
+@use '../../../../styles/variables/variables' as *;
+
+.modal-container {
+  //posición fixed es para que el modal se mantenga en la misma posición
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* por encima de otros elementos*/
+}
+
+.modal {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $white;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $gray-300;
+  h3{
+    margin: 20px 0;
+    width: 100%;
+    font-size: 60px;
+    color:$primary;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+.modal-body {
+  width: 100%;
+  padding: 20px 0;
+  p{
+    text-align: center;
+    font-weight: 800;
+    color:$primary;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding-top: 20px;
+  border-top: 1px solid $gray-300;
+
+  //primer hijo
+
+
+  button{
+    width: 100px;
+    height: 35px;
+    padding: 0;
+  }
+
+
+}
+
+.fa-circle-check {
+  color: $success;
+}
+
+.fa-circle-xmark{
+  color: $danger;
+}
+
+.fa-info-circle{
+  color: $info;
+}
+
+.fa-triangle-exclamation{
+  color: $warning
+}

@@ -22,3 +22,5 @@ export interface ICarousel {
   product_id: number;
   product: IProduct;
 }
+
+

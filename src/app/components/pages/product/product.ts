@@ -140,7 +140,8 @@ export class Product implements OnInit, OnDestroy {
   }
 
   public increase() {
-  this.quantity.update(q => q + 1);
+
+    this.quantity.update(q => q <= this.product().stock -1 ? q + 1 : q);
   }
 
   public decrease() {

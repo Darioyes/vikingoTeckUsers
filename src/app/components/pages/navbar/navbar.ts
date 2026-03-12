@@ -1,4 +1,6 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
+import { LoggeInService } from './../../../services/auth/loggeIn/logge-in-service';
+import { CommonModule, NgStyle } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -6,7 +8,6 @@ import { environment } from '@enviroments/environment.development';
 import { CategoriesProducts } from '@services/categoriesProducts/categories-products';
 import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
 import { Subscription, timeInterval } from 'rxjs';
-import { Header } from '../header/header';
 import { HeaderSevice } from '@services/header/header-sevice';
 
 @Component({
@@ -15,6 +16,7 @@ import { HeaderSevice } from '@services/header/header-sevice';
     MatIconModule,
     NgStyle,
     RouterModule,
+    CommonModule
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
@@ -25,12 +27,15 @@ export class Navbar implements OnInit, OnDestroy {
   #categoriesProductsService = inject(CategoriesProducts);
   #headerService = inject(HeaderSevice);//servicion del header que cambia de color segun la pagina
   #unsubscribe!: Subscription;
+  #cookieService = inject(CookieService);
   router = inject(RouterModule);
+  public LoggeInService = inject(LoggeInService);
 
   public activeMenu = signal<boolean>(true);
   public visibleMenu= signal<string>('hidden');
   public categoriesProducts = signal<any>([]);
   public activeRoute = signal<boolean>(false);
+  public isLoggedIn = signal<boolean>(false);
 
   public colorBlackTransparent = environment.colorBlackTransparent;
 
@@ -80,6 +85,15 @@ export class Navbar implements OnInit, OnDestroy {
     // });
     this.#headerService.setWhiteHeader(white);
 
+  }
+
+  public ifLogin():boolean{
+     
+    if(this.#cookieService.get('token')&& this.#cookieService.get('success') && this.#cookieService.get('name')){
+      return true;
+    }
+
+    return false;
   }
 
 

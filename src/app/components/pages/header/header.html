@@ -8,7 +8,12 @@
     </div>
     <div class="container-header__actions">
         <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
-        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person"></mat-icon>
+        @if(LoggeInService.isLoggedIn$ | async ){
+          <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Cerrar sesión" fontIcon="logout" (click)="confirmLogout()"></mat-icon>
+        }
+        @if(!(LoggeInService.isLoggedIn$ | async)){
+          <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person" (click)="navigateToLogin()"></mat-icon>
+        }
         <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart"></mat-icon>
         <img src="../../../../assets/images/vikingoTechimg.png" alt="vikingoTech">
         <div class="point-shopping"></div>

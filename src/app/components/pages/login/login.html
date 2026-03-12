@@ -1,1 +1,48 @@
-<p>login works!</p>
+@defer () {
+<div class="container-login">
+    <app-custom-alert/>
+    <h2>Iniciar Sesión</h2>
+    <div class="container-login__form">
+        <form [formGroup]="loginForm" class="form-login" (submit)="loginUser()" >
+            <div class="form-login__logo">
+            <img  src="../../../../assets/images/vikingoTech1.jpg"/>
+            </div>
+            <div class="form-login__user">
+                <div class="form-login__user--email">
+                    <mat-icon aria-hidden="false" aria-label="Correo" fontIcon="email"></mat-icon>
+                    <input type="email" placeholder="Correo" name="email" id="email" formControlName="email" autocomplete="email">
+                </div>
+                <div>
+                    @if (email?.errors?.['required'] && email?.touched) {
+                        <p [style.color]="'var(--mat-sys-error)'" >El correo es obligatorio</p>
+                    }
+                    @if (email?.errors?.['email']) {
+                        <p [style.color]="'var(--mat-sys-error)'" >Debe ser un correo valido</p>
+                    }
+                </div>
+                <div class="form-login__user--password" >
+                    @if(this.padLock()){
+                        <mat-icon aria-hidden="false" aria-label="Contraseña" fontIcon="lock" (click)="setPadLock()"></mat-icon>
+                    }@else {
+                        <mat-icon aria-hidden="false" aria-label="Mostrar contraseña" fontIcon="lock_open" (click)="setPadLock()"></mat-icon>
+                    }
+                    <input [type]="this.padLock()? 'password':'text'" placeholder="Contraseña" formControlName="password" name="password" id="password">
+                </div>
+                <div>
+                    @if (password?.errors?.['required'] && password?.touched) {
+                        <p [style.color]="'var(--mat-sys-error)'" >La contraseña es obligatoria</p>
+                    }
+                </div>
+                <div class="form-login__btn">
+                    <button class="btn" matButton="filled" [disabled]="loginForm.invalid" >Ingresar</button>
+                </div>
+                <div class="form-login__links">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <a href="#">¿No tienes una cuenta? Regístrate</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+}

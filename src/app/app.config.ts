@@ -9,6 +9,8 @@ import { Banner } from '@services/banner/banner';
 import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
 import { CategoriesProducts } from '@services/categoriesProducts/categories-products';
 import { Products } from '@services/products/products';
+import { AuthService } from '@services/auth/login/auth-service';
+import { LoggeInService } from '@services/auth/loggeIn/logge-in-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +18,8 @@ export const appConfig: ApplicationConfig = {
     NavbarMenu,
     CategoriesProducts,
     Products,
+    AuthService,
+    LoggeInService,
 
     // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),
