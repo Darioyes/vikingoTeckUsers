@@ -5,9 +5,7 @@ import { IMaintenance } from '@interfaces/IMaintenance';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class maintenanceService {
 
   #cookieService = inject(CookieService);

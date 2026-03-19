@@ -1,6 +1,7 @@
 export interface IAlert {
   icon: string;
   message: string | Object;
+  navigate?: string;
 }
 
 export interface IAlertConfirm {

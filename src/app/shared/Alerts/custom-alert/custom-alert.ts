@@ -1,7 +1,9 @@
 import { ApplicationRef, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { AlertService } from '@services/alert/alertService/alert-service';
+import { UserRegisterService } from '@services/auth/register/user-register-service';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
@@ -45,7 +47,10 @@ import { Subscription } from 'rxjs';
 export class CustomAlert {
   #appRef = inject(ApplicationRef);
   #cdr = inject(ChangeDetectorRef);
+  #router = inject(Router);
+  #userRegisterService = inject(UserRegisterService);
 
+  navigate: string | any='';
   icon: string = '';
   message: string | object = '';
   show: boolean = false;
@@ -80,6 +85,7 @@ export class CustomAlert {
       if (alert) {
         this.icon = alert.icon;
         this.message = alert.message;
+        this.navigate = alert.navigate ? alert.navigate : '';
         this.show = true;
         // Suscríbete a los eventos de clic después de mostrar la alerta
       //this.subscribeToLinkClick();
@@ -94,15 +100,20 @@ export class CustomAlert {
           this.color = '#0dcaf0';
           this.buttonType = 'info';
         };
-          //this.#cdr.detectChanges();
+        
       } else {
         this.show = false;
       }
+      this.#cdr.detectChanges();
     });
   }
 
   onClose() {
     this.show = false;
+    if(this.navigate != ''){
+      this.#router.navigate([this.navigate]);
+    }
+    
   }
 
 }

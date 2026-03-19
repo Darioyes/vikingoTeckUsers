@@ -1,0 +1,223 @@
+@use 'sass:color';
+@use '../../../../styles/variables/variables' as *;
+@use '../../../../styles/variables/mediaq' as *;
+
+.cointeinear-detailproduct{
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 5px;
+  align-items: center;
+     padding: 140px 10px 20px 10px;
+        @include tablets {
+        padding-top: 20px;
+    }
+
+  &__title{
+    width: 100%;
+    padding: 0;
+    h2{
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      color: color.scale($success, $lightness: -20%);;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+    }
+  }
+
+  .eye{
+    border: none;
+    i{
+      font-size: 1.2em;
+      color: $primary;
+      cursor: pointer;
+    }
+  }
+
+  &__content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 0;
+
+    &--item {
+      width: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border: 1px solid $gray-400;
+      border-radius: 5px;
+      @include tablets{
+        width: 400px;
+      }
+      @include phone{
+        width: 330px;
+      }
+      label{
+        width: 100%;
+        background:  color.scale($primary, $lightness: 5%);
+        color: $white;
+        text-align: center;
+        padding: 3px;
+        font-size: 0.9em;
+        border-radius: 5px 5px 0 0;
+        letter-spacing: .5px;
+      }
+      p{
+        width: 100%;
+        padding: 0 3px;
+        color:$gray-900;
+        text-align: center;
+        font-size: .8em;
+      }
+      input, textarea{
+        min-height: 50px;
+        field-sizing: content;
+        width: 100%;
+        padding: 3px;
+        border: none;
+        outline: none;
+        font-size: .8em;
+        text-align: center;
+        color: $gray-900;
+        font-family: inherit;
+        padding: 10px 3px;
+      }
+
+
+      textarea{
+        max-height: 600px;
+        //boloquear el resize
+        resize: none;
+        field-sizing: content;//para que crezce el textarea segun el contenido
+        //alienar el texto al inicio
+        text-align: start;
+        padding-left: 5px;
+        padding-right: 5px;
+        &:focus{
+          background: $gray-400;
+        }
+      }
+      input{
+        height: 50px;
+        //al hacer focus el input se pone de color verde
+        &:focus{
+          background: $gray-400;
+        }
+      }
+      span{
+        text-transform: none;
+        padding: 5px;
+      }
+      select{
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        border: none;
+        outline: none;
+        border: 1px solid $gray-400;
+        font-size: .9em;
+        color: $gray-900;
+        padding: 5px;
+        option{
+          width: 100%;
+          outline: none;
+          border: 1px solid $gray-400;
+         &:hover{
+          background: color.scale($primary, $lightness: -20%);
+          color: $white;
+         }
+        }
+      }
+    }
+        //primer hijo
+        &--item:first-child{
+          text-transform: capitalize;
+        }
+        //segundo hijo
+        &--item:nth-child(2){
+          text-transform: capitalize;
+        }
+
+  }
+
+  &__images{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 5px;
+    input{
+      //ocultar el input
+      display: none;
+    }
+    &--img{
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      aspect-ratio: 16/9;//mantiene todos los elementos con la misma proporcion
+      overflow: hidden;//oculta los elementos que sobresalen del contenedor
+      //imagen redondeada
+      @include tablets{
+        width: 300px;
+      }
+      img{
+        width: 100%;
+        height: 100%;
+        //imagen redonda
+      }
+    }
+  }
+  .imageinput{
+    //subir el tamaño de la imagen al hacer hover
+    &:hover{
+      transform: scale(1.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+  }
+  &__btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    .btn2{
+      &:hover{
+        background: color.scale($success, $lightness: -20%);
+      }
+    }
+    button{
+      font-size: 1em;
+    }
+
+    //primer hijo
+    .btn1{
+      &:hover{
+        background: color.scale($warning, $lightness: -20%);
+      }
+    }
+    //segundo hijo
+    .btn3{
+      &:hover{
+        background: color.scale($danger, $lightness: -20%);
+      }
+    }
+
+  }
+
+}

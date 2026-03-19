@@ -4,11 +4,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { environment } from '@enviroments/environment.development';
 import { IMaintenance } from '@interfaces/IMaintenance';
 import { AlertService } from '@services/alert/alertService/alert-service';
+import { UserRegisterService } from '@services/auth/register/user-register-service';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { maintenanceService } from '@services/maintenance/maintenanceService';
+import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
 import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 import { CookieService } from 'ngx-cookie-service';
-import { Subscription } from 'rxjs';
+import { single, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-maintenance',
@@ -17,7 +19,8 @@ import { Subscription } from 'rxjs';
     DecimalPipe,
     DatePipe,
     SpinerPages,
-    NgStyle
+    NgStyle,
+    CustomAlert
   ],
   templateUrl: './maintenance.html',
   styleUrl: './maintenance.scss',
@@ -29,10 +32,13 @@ export class Maintenance implements OnInit, OnDestroy {
   #maintenanceServ = inject(maintenanceService);
   #cookieService = inject<CookieService>(CookieService);
   #alertService = inject(AlertService);
+  #userRegisterService = inject(UserRegisterService);
 
   public id!: number;
   public headerWhite = signal<boolean>(false);
   public maintenanceData = signal<IMaintenance | null>(null);
+  public carge = signal<boolean>(false);
+  public verifiqued = signal<boolean>(true);
   public name = this.#cookieService.get('name') ? this.#cookieService.get('name') : 'Usuario';
   public urlImage = environment.domainimage;
   public warning = environment.colorWarning;
@@ -43,6 +49,7 @@ export class Maintenance implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setWhiteHeader();
     this.getMaintenance();
+    
   }
 
   ngOnDestroy(): void {
@@ -68,12 +75,17 @@ export class Maintenance implements OnInit, OnDestroy {
       this.#unsubcribeMaintenance = this.#maintenanceServ.getOneMaintenance(this.id).subscribe({
         next: (response: IMaintenance) => {
           this.maintenanceData.set(response);
-          console.log(response);
+          this.carge.set(true);
         },
         error: (error: IMaintenance) => {
           console.error(error);
-          this.#alertService.showAlert('error', 'Error al obtener el mantenimiento');
-        }
+          if(error?.errorVikingo?.message ==='Your email address is not verified.'){
+            this.verifiqued.set(false); 
+            this.resend();
+          }else{
+            this.carge.set(true);
+          }
+        },
       });
 
     }else{
@@ -81,5 +93,25 @@ export class Maintenance implements OnInit, OnDestroy {
     }
   }
 
+  public resendVerification(): void {
+    this.#userRegisterService.verifyEmail().subscribe({
+      next: (response) => {
+        this.#alertService.showAlert('success', 'Correo de verificación reenviado. Por favor, revisa tu correo electrónico.','home/principal');
+      },
+      error: (error) => {
+        console.error(error);
+        this.#alertService.showAlert('error', 'Error al reenviar el correo de verificación. Por favor, intenta nuevamente.','home/principal');
+      }
+    });
+  }
 
+    async resend(): Promise<void> {
+    const confirm = await this.#alertService.openAlert('error', '¿Tu correo electrónico no está verificado. ¿Deseas reenviar el correo de verificación?');
+    if (confirm) {
+      this.carge.set(false);
+      this. resendVerification();
+    }else{
+      this.#alertService.showAlert('alert', 'Por favor, verifica tu correo electrónico para acceder a esta sección.','home/principal');
+    }
+  }
 }

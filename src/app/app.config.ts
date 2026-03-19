@@ -11,6 +11,10 @@ import { CategoriesProducts } from '@services/categoriesProducts/categories-prod
 import { Products } from '@services/products/products';
 import { AuthService } from '@services/auth/login/auth-service';
 import { LoggeInService } from '@services/auth/loggeIn/logge-in-service';
+import { maintenanceService } from '@services/maintenance/maintenanceService';
+import { CitiesService } from '@services/cities/cities/cities-service';
+import { UserRegisterService } from '@services/auth/register/user-register-service';
+import { AlertService } from '@services/alert/alertService/alert-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +24,10 @@ export const appConfig: ApplicationConfig = {
     Products,
     AuthService,
     LoggeInService,
+    maintenanceService,
+    CitiesService,
+    UserRegisterService,
+    AlertService,
 
     // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),

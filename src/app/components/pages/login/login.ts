@@ -86,7 +86,6 @@ export class Login implements OnInit, OnDestroy {
         //llamamos al servicio de login
         this.#unsubscribeLogin = this.#authService.login(loginData).subscribe({
           next: (response:ILoginResponse) => {
-            console.log('Login exitoso:', response);
             //calcular la fecha de expiración en 5 días
             const expirationDate = new Date();
             expirationDate.setDate(expirationDate.getDate() + 5);
@@ -99,6 +98,7 @@ export class Login implements OnInit, OnDestroy {
             this.#cookieService.set('lastname', response.data!.lastname!, expirationDate, '/', undefined, true, 'Strict');
             this.#cookieService.set('success', response.response!, expirationDate, '/', undefined, true, 'Strict');
             this.#cookieService.set('avatar', response.data!.image!, expirationDate, '/', undefined, true, 'Strict');
+            this.#cookieService.set('email', response.data!.email!, expirationDate, '/', undefined, true, 'Strict');
             this.loadingButton.set(false);
             this.#loggeInService.upDateLoginStatus(true);
             this.#router.navigate(['/home']);
@@ -132,5 +132,9 @@ export class Login implements OnInit, OnDestroy {
     this.padLock.set(!this.padLock());
   }
 
+  navitateToRegister(): void {
+    this.#router.navigate(['/home/registrarse']);
+    this.#headerService.setWhiteHeader(true);
+  }
 
 }

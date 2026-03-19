@@ -38,10 +38,14 @@
   h3{
     margin: 20px 0;
     width: 100%;
-    font-size: 60px;
     color:$primary;
     font-weight: bold;
     text-align: center;
+    mat-icon{
+      width: 60px;
+      height: 60px;
+      font-size: 60px;
+    }
   }
 }
 

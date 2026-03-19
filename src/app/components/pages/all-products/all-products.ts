@@ -38,8 +38,6 @@ export class AllProducts implements OnInit, OnDestroy {
       next: (response) => {
         this.products.set(response.data.data);
         this.successMessage.set(response.response);
-        console.log(this.products());
-        console.log(response);
       },
       error: (error) => {
         console.error(error);

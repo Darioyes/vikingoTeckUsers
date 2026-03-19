@@ -3,9 +3,7 @@ import { Subject } from 'rxjs';
 import { IAlert } from '@interfaces/IAlrets';
 import { ConfirmAlert } from '@shared/Alerts/confirm-alert/confirm-alert';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlertService {
 
   appRef = inject(ApplicationRef);
@@ -21,9 +19,9 @@ export class AlertService {
 
 
   //instanciamos un observable de tipo Subject para poder emitir y escuchar eventos del custom alert
-  showAlert(icon: string, message: string| Object| any) {
+  showAlert(icon: string, message: string| Object| any, navigate?: string) {
     //emitimos el evento con el icono y el mensaje
-    this.#alertSubject.next({ icon, message });
+    this.#alertSubject.next({ icon, message, navigate });
 
   }
   

@@ -17,7 +17,7 @@ export class AuthService {
     const headers = {
       'Accept': 'application/json',
     };
-    return this.#http.post(`${this.#url}vikingousers/login`, data, { headers });
+    return this.#http.post(`${this.#url}vikingousers/login`, data, { headers: headers });
   }
 
   public logout(): Observable<ILoginResponse> {
@@ -26,7 +26,7 @@ export class AuthService {
       'Accept': 'application/json',
       'Authorization': `Bearer ${token}`
     };
-    return this.#http.post<ILoginResponse>(`${this.#url}vikingousers/logout`, null, { headers });
+    return this.#http.post<ILoginResponse>(`${this.#url}vikingousers/logout`, null, { headers: headers });
   }
 
 }

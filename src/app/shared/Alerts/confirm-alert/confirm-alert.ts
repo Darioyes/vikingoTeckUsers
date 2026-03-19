@@ -15,13 +15,13 @@ import { MatIconModule } from '@angular/material/icon';
         <!-- <div class="modal-header" [ngStyle]="{'border-bottom': '1px solid '+color }"> -->
         <div class="modal-header" >
           @if(icons === 'alert'){
-            <h3><i class="fa-solid fa-triangle-exclamation" ></i></h3>
+            <h3><mat-icon class="fa-triangle-exclamation">warning</mat-icon></h3>
           }@else if (icons === 'info') {
-            <h3><i class="fa-solid fa-info-circle"></i></h3>
+           <h3><mat-icon class="fa-info-circle">info</mat-icon></h3>
           }@else if (icons === 'success') {
-            <h3><i class="fa-regular fa-circle-check"></i></h3>';
+            <h3><mat-icon class="fa-circle-check">check_circle</mat-icon></h3>
           }@else if (icons === 'error') {
-            <h3><i class="fa-regular fa-circle-xmark"></i></h3>
+            <h3><mat-icon class="fa-circle-xmark">error</mat-icon></h3>
           }
         </div>
         <div class="modal-body">
