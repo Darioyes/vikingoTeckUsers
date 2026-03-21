@@ -7,10 +7,11 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { ILogin, ILoginResponse } from '@interfaces/ILoginResponse';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '@services/auth/login/auth-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { LoggeInService } from '@services/auth/loggeIn/logge-in-service';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
+
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
     MatIconModule,
     MatButtonModule,
     ReactiveFormsModule,
+    RouterModule,
     CustomAlert
   ],
   templateUrl: './login.html',
@@ -41,6 +43,7 @@ export class Login implements OnInit, OnDestroy {
   public headerWhite = signal<boolean>(false);
   public padLock = signal<boolean>(true);
   public loadingButton = signal<boolean>(false);
+  //router = inject(RouterModule);
 
   ngOnInit(): void {
     this.setWhiteHeader();

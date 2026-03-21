@@ -64,6 +64,18 @@ export const routes: Routes = [
                 title: 'vikingoTech - Registrarse',
                 loadComponent: () => import('./components/pages/register/register').then(c => c.Register),
             },
+            {
+                //ruta para restablecer contraseña debe recibir el token y el email por query params
+                path: 'reset-password',
+                title: 'vikingoTech - Restablecer Contraseña',
+                loadComponent: () => import('./components/pages/reset-password/reset-password').then(c => c.ResetPassword),
+            },
+            {
+                //ruta para enviar el correo de restablecimiento de contraseña
+                path: 'email-reset',
+                title: 'vikingoTech - Correo Restablecer Contraseña',
+                loadComponent: () => import('./components/pages/email-reset/email-reset').then(c => c.EmailReset),
+            },
         ],
     },
    

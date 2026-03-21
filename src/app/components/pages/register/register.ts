@@ -33,7 +33,6 @@ export class Register implements OnInit, OnDestroy {
   #unsubscribeCities!: Subscription;
   #router = inject(Router);
   alertService = inject(AlertService);
-  #cookiesService = inject(CookieService);
 
   public city = signal<any>([]);
   public existsImage = signal<string>('');
@@ -179,8 +178,10 @@ export class Register implements OnInit, OnDestroy {
               //el .flat() es para aplanar el array de errores y el object.values es para obtener los valores del objeto de errores
               const errorMessages = Object.values(error.errorVikingo.errors).flat();
               this.alertService.showAlert('error', errorMessages.join(' '));
+              this.buttons.set(true);
             }else if(error.errorVikingo){
               this.alertService.showAlert('error', error?.errorVikingo?.message );
+              this.buttons.set(true);
             }
           },
           complete: () => {

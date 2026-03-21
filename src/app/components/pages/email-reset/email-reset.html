@@ -1,0 +1,31 @@
+@defer () {
+<div class="container-login">
+    <app-custom-alert/>
+    <h2>Restablecer Contraseña</h2>
+    <div class="container-login__form">
+        <form [formGroup]="emailForm" class="form-login" (submit)="sendEmailReset()" >
+            <div class="form-login__logo">
+            <img  src="../../../../assets/images/vikingoTech1.jpg"/>
+            </div>
+            <div class="form-login__user">
+                <div class="form-login__user--email">
+                    <mat-icon aria-hidden="false" aria-label="Correo" fontIcon="email"></mat-icon>
+                    <input type="email" placeholder="Confirmar correo de registro" name="email" id="email" formControlName="email" autocomplete="email">
+                </div>
+                <div>
+                    @if (email?.errors?.['required'] && email?.touched) {
+                        <p [style.color]="'var(--mat-sys-error)'" >El correo es obligatorio</p>
+                    }
+                    @if (email?.errors?.['email']) {
+                        <p [style.color]="'var(--mat-sys-error)'" >Debe ser un correo valido</p>
+                    }
+                </div>
+                <div class="form-login__btn">
+                    <button class="btn" matButton="filled" [disabled]="emailForm.invalid" >Ingresar</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+}
