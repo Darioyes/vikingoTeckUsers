@@ -180,12 +180,6 @@
                         border: none;
                         font-size: .8rem;
                         font-weight: 500;
-                        //quitarle las flechas al inptut number
-                        &::-webkit-outer-spin-button,
-                        &::-webkit-inner-spin-button {
-                            -webkit-appearance: none;
-                            margin: 0;
-                        }
                     }
                 }
             }

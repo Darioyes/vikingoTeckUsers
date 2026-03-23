@@ -62,7 +62,6 @@ export class EmailReset implements OnInit, OnDestroy {
       const emailValue: { email: string } = { email: this.emailForm.value.email };
       this.#unsubscribeReset = this.#resetPasswordService.emailResetPassword(emailValue).subscribe({
         next: (response: IResetPasswordResponse) => {
-          console.log(response);
           this.#alertService.showAlert('alert', response.message,'home/iniciar-sesion');
         },
         error: (error: IResetPasswordResponse) => {

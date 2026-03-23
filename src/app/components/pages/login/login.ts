@@ -11,6 +11,8 @@ import { Router, RouterModule } from '@angular/router';
 import { LoggeInService } from '@services/auth/loggeIn/logge-in-service';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
+import { IShopingCartData, IShopingCartResponse } from '@interfaces/IShopingCart';
 
 
 @Component({
@@ -32,6 +34,7 @@ export class Login implements OnInit, OnDestroy {
   #unsubscribeLogout!: Subscription;
   #cookieService = inject<CookieService>(CookieService);
   #authService = inject<AuthService>(AuthService);
+  #shoopingCartService = inject(ShoopingCartService);
   #router = inject(Router);
   #loggeInService = inject(LoggeInService);
   appRef = inject(ApplicationRef);
@@ -44,7 +47,7 @@ export class Login implements OnInit, OnDestroy {
   public padLock = signal<boolean>(true);
   public loadingButton = signal<boolean>(false);
   //router = inject(RouterModule);
-
+  public dataShoppingCart = signal<IShopingCartData[]>([]);
   ngOnInit(): void {
     this.setWhiteHeader();
     this.formLogin();
@@ -105,6 +108,7 @@ export class Login implements OnInit, OnDestroy {
             this.loadingButton.set(false);
             this.#loggeInService.upDateLoginStatus(true);
             this.#router.navigate(['/home']);
+            this.getShopingCart();
           },
           error: (error:ILoginResponse) => {
             console.error('Error en el login:', error);
@@ -124,6 +128,54 @@ export class Login implements OnInit, OnDestroy {
       this.alertService.showAlert('info', 'Ya has iniciado sesión');
       this.loadingButton.set(false);
       //limpiar el formulario
+    }
+  }
+
+  public getShopingCart(): void {
+    const userId = Number(this.#cookieService.get('id'));
+    //validamos si hay en el local storage esta la información del carrito de compras con informacion dentro del value
+    this.dataShoppingCart.set(JSON.parse(localStorage.getItem('cart') || '[]'));
+    console.log('Carrito de compras cargado desde localStorage:', this.dataShoppingCart());
+    if (this.dataShoppingCart() === null || this.dataShoppingCart().length > 0) {
+      //obtenemos el amount y el id_product de las señal dataShoppingCart
+      const cartItems = this.dataShoppingCart().map(item => ({
+        product_id: item.product_id,
+        amount: item.amount
+      }));
+      //sincronizamos el carrito de compras con la API
+      cartItems.forEach(item => {
+        const request = {
+          _method: 'POST',
+          product_id: item.product_id,
+          user_id: userId,
+          amount: item.amount
+        };
+        this.#shoopingCartService.addToCart(request).subscribe({
+          next: (response:IShopingCartResponse) => {
+            this.#shoopingCartService.setRedPointActive(true);
+            this.#cookieService.set('cart_updated', 'true');
+          },
+          error: (err:IShopingCartResponse) => { 
+            console.error('Error al sincronizar:', err);
+          }
+        });
+      });
+      //limpiamos el carrito de compras del local storage
+      localStorage.removeItem('cart');
+    }else{
+      //si no hay información en el local storage, obtenemos el carrito de compras desde la API
+      this.#shoopingCartService.getCartItemsByUser(userId).subscribe({
+        next: (response:IShopingCartResponse) => {
+          this.dataShoppingCart.set(response.data || []);
+          if(this.dataShoppingCart().length > 0){
+            this.#shoopingCartService.setRedPointActive(true);
+            this.#cookieService.set('cart_updated', 'true');
+          }
+        },
+        error: (err:IShopingCartResponse) => {
+          console.error('Error al obtener el carrito de compras:', err);
+        }
+      });
     }
   }
   

@@ -1,3 +1,4 @@
+<app-custom-alert/>
 <div class="container-cardproducts">
     <div class="container-cardproducts__image" (click)="goToProductPage()">
         <img [src]="image()" [alt]="name()">
@@ -19,7 +20,7 @@
         @if(stock() <= 0){
             <button class="btn" matButton="tonal" disabled>Agotado</button>
         }@else{
-            <button class="btn" matButton="tonal">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
+            <button class="btn" matButton="tonal" (click)="addToCart()">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
             <button class="btn" matButton="filled" (click)="goToProductPage()" >Ver</button>
         }
     </div>

@@ -68,7 +68,7 @@
         <div class="container-product__detail--description">
             <h2>{{ product()?.name }}</h2>
             <p>{{ product()?.description }}</p>
-            <p>${{ product()?.sale_price |number}}</p>
+            <p>${{ (product()?.sale_price * quantity()) |number }}</p>
         </div>
 
         <div class="container-product__detail--reference">

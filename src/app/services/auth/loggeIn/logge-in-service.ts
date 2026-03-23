@@ -4,11 +4,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { AuthService } from '../login/auth-service';
 import { Router } from '@angular/router';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
 
 @Injectable()
 export class LoggeInService {
 
   #cookieService = inject(CookieService);
+  #shoppingCartService = inject(ShoopingCartService);
   // BehaviorSubject para mantener el estado de login, se inicializa con el valor del token en las cookies sin importar la recarga de la página
   #loggedIn = new BehaviorSubject<boolean>(this.#cookieService.check('token'));
   #authService = inject<AuthService>(AuthService);
@@ -31,8 +33,11 @@ export class LoggeInService {
           this.#cookieService.delete('lastname');
           this.#cookieService.delete('success');  
           this.#cookieService.delete('avatar');
+          this.#cookieService.set('cart_updated', 'false'); 
+          this.#shoppingCartService.setRedPointActive(false);
           this.upDateLoginStatus(false);
           this.#router.navigate(['/home/iniciar-sesion']);
+          
         },
         error: (error:ILoginResponse) => {
           console.error('Error en el logout:', error);

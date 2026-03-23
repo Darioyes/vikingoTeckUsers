@@ -1,1 +1,43 @@
-<p>shopping-cart works!</p>
+<div class="container-shoppingcart">
+    <div class="container-shoppingcart__title">
+        <h2>Carrito de Compras</h2>
+    </div>
+    @for (item of products(); track $index){
+        <div class="container-shoppingcart__card">
+            <div class="container-card">
+                <div class="container-card__image">
+                @if (token()&& name()) {
+                    <img  [src]=" urlImg+item.product.image1.replace('public', 'storage')" [alt]="item.product.name ">
+                }@else{
+                    <img  [src]=" item.product.image1 " [alt]="item.product.name ">
+                }
+                </div>
+                <div class="container-card__detail">
+                    <h3 class="container-card__detail--title"><a href="">{{ item.product.name }}</a></h3>
+                    <div class="container-card__detail--items">
+                        <p>Cantidad:</p>
+                        <span>{{ math.floor(item.product.stock) | number}} {{item.product.stock > 1 ? 'Disponibles' : 'Disponible' }}</span>
+                        <mat-icon fontIcon="delete" (click)="confirmRemoveShoppingCart(item.id)"></mat-icon>
+                    </div>
+                    <div class="container-card__detail--amount">
+                        <h3>Cantidad</h3>
+                        <div class="plus">
+                            <button  matButton="tonal" (click)="updateAmount(item.id, -1)">-</button>
+                            <input  type="number" [value]="math.floor(item.amount) | number" min="1" [max]="item?.product?.stock" />
+                            <button matButton="filled" (click)="updateAmount(item.id, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-card__price">
+                    <p>${{ item.product.sale_price | number }}</p>
+                </div>
+            </div>
+            <div class="container-buttons">
+                <button class="btn" matButton="filled" >Reservar</button>
+                <button class="btn" matButton="tonal" >Botón Bold</button>
+            </div>
+        </div>
+    }@empty{
+        <p>El carrito de compras está vacío.</p>
+    }
+</div>

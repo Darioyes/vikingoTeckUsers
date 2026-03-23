@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
         <!-- <div class="modal-header" [ngStyle]="{'border-bottom': '1px solid '+color }"> -->
         <div class="modal-header" >
           @if(icon === 'alert'){
-          <h3><mat-icon class="fa-triangle-exclamation">warning</mat-icon></h3>
+            <h3><mat-icon class="fa-triangle-exclamation">warning</mat-icon></h3>
           }@else if(icon === 'success'){
             <h3><mat-icon class="fa-circle-check">check_circle</mat-icon></h3>
           }@else if(icon === 'error'){
@@ -87,8 +87,6 @@ export class CustomAlert {
         this.message = alert.message;
         this.navigate = alert.navigate ? alert.navigate : '';
         this.show = true;
-        // Suscríbete a los eventos de clic después de mostrar la alerta
-      //this.subscribeToLinkClick();
 
         if(alert.icon === 'success'){
           this.color = '#198754';

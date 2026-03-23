@@ -1,0 +1,176 @@
+@use '../../../../styles/variables/button' as *;
+@use '../../../../styles/variables/variables' as *;
+@use '../../../../styles/variables/mediaq' as *;
+
+.container-shoppingcart{
+    width: 100%;
+    //min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 140px 10px 30px 10px;
+    @include tablets{
+        padding: 20px 10px;
+    }
+    @include phone{
+        padding:10px;
+    }
+    &__title{
+        width: 100%;
+        h2{
+        width: 100%;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: capitalize;
+        color: $primary;
+        @include phone {
+            font-size: 1.4rem;
+        }
+         @include small-phone{
+            font-size: 1rem;
+        }
+        }
+    }
+    &__card{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: $white;
+        gap: 20px;
+        border-radius: 5px;
+        padding: 10px 0;
+        @include tablets{
+
+        }
+
+        .container-card{
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            @include tablets{
+                flex-direction: column;
+            }
+
+            &__image{
+                width: 180px;
+                height: 120px;
+                border-radius: 5px;
+                display: grid;
+                place-items: center;
+                flex:1 0 180px;
+                padding-left: 10px;
+                @include tablets{
+                    width: 80%;
+                    height: auto;
+                }
+                img{
+                    width: 100%;
+                    aspect-ratio: 16 / 9;
+                    border-radius: 5px;
+                }
+            }
+
+            &__detail{
+                flex:2 0 360px;
+                display: flex;
+                align-items: start;
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+                @include tablets{
+                    flex:1 0 100%;
+                    padding: 0 10px;
+                }
+                &--title{
+                    a{
+                        color: $primary;
+                        font-size: 1.1rem;
+                        font-weight: bold;
+                    }
+                }
+
+                &--items{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    mat-icon{
+                        color:$primary;
+                        cursor: pointer;
+                    }
+                    p{
+
+                        color: $primary;
+                        font-size: 1rem;
+                        font-weight: bold;
+                    }
+                    span{
+                        font-size: 1rem;
+                        font-weight: 400;
+                        color: $gray-800;
+                    }
+                }
+
+                &--amount{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    h3{
+                        font-size: 1rem;
+                        font-weight: 600;
+                        color: $gray-800;
+                    }
+                    .plus{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 5px;
+                        // border: 1px solid $gray-500;
+                        border-radius: 5px;
+                        padding: 5px 10px;
+                        button{
+                            width: 30px !important;
+                            height: 30px !important ;
+                        }
+                        input{
+                            width: 40px;
+                            height: 30px;
+                            text-align: center;
+                            border: none;
+                            font-size: .8rem;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+            &__price{
+                flex:1 0 100px;
+                padding-right: 10px;
+                @include tablets{
+                    flex:1 0 100%;
+                }
+                p{
+                    color: $primary;
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                }
+            }
+        }
+        .container-buttons{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+    }
+}

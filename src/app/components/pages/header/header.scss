@@ -159,13 +159,13 @@
 
         .point-shopping{
             position: absolute;
-            top: 0;
-            right: -5px;
+            top: 20px;
+            right: 90px;
             background-color: variables.$danger;
             width: 5px;
             height: 5px;
             border-radius: 50%;
-            display: none; //cambiar a display block con angular cuando haya productos en el carrito
+            //display: none; //cambiar a display block con angular cuando haya productos en el carrito
             //colocar delante de los demas elementos
         }
         

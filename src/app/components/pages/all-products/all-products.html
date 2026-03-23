@@ -1,3 +1,4 @@
+<app-custom-alert/>
 <div class="container-products">
     <div class="container-products__title">
         <h2>Catalogo de productos</h2>
@@ -13,9 +14,11 @@
                 [stock]="item.stock"
                 [color]="item.color"
                 [slug]="item.slug"
+                (message)="receiveMessage($event)"
             />
         }
     </div>
+    <!-- recibir el output del hijo -->
     }@placeholder {
         <app-spiner-pages/>
     }

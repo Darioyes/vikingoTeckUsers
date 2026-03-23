@@ -66,8 +66,6 @@ export class ResetPassword implements OnInit, OnDestroy {
    this.#route.queryParams.subscribe(params => {
       this.token.set(params['token']);
       this.email.set(params['email']);
-      console.log('Token:', this.token());
-      console.log('Email:', this.email());
     });
 
     if (this.token()=== undefined && this.email()=== undefined) {
@@ -92,6 +90,7 @@ public resetPassword(): void {
         this.#alertService.showAlert('success', response.message, 'home/iniciar-sesion');
       },
       error: (error: IResetPasswordResponse) => {
+        console.error(error);
         const msg = error.errorVikingo?.message;
         this.#alertService.showAlert('alert', msg, 'home/iniciar-sesion');
       }

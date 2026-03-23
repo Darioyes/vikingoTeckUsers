@@ -7,6 +7,8 @@ import { environment } from '@enviroments/environment.development';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { NavbarMenu } from '@services/navbarMenu/navbar-menu';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -28,10 +30,14 @@ export class Header implements OnInit, OnDestroy {
   #routers = inject(Router);
   #headerService = inject(HeaderSevice);
   #alertService = inject(AlertService);
+  #shoopingCartService = inject(ShoopingCartService);
+  #cookieservice = inject(CookieService);
 
   public LoggeInService = inject(LoggeInService);
   public activeMenu = signal<boolean>(false);
   public headerWhite = signal<boolean>(false);
+  public shoopingCart = signal<boolean>(false);
+  public cookie = signal<string>('');
   
 
   isScrolled = false;
@@ -47,6 +53,8 @@ export class Header implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getWhiteHeader();
     this.headerWhite();
+    this.getRedPointActive();
+    this.cookie.set(this.#cookieservice.get('cart_updated'));
   }
   ngOnDestroy(): void {}
 
@@ -67,6 +75,13 @@ export class Header implements OnInit, OnDestroy {
     });
     this.#navbarMenuService.setSubmenuActive(this.activeMenu());
   }
+
+  getRedPointActive(): void {
+    this.#shoopingCartService.getRedPointActive().subscribe((value) => {
+      this.shoopingCart.set(value);
+      this.cookie.set(this.#cookieservice.get('cart_updated')); // Opcional: Puedes usar una cookie para verificar si el carrito se ha actualizado
+    });
+  }
   
   navigateToHome():void {
     this.#routers.navigate(['/home']);
@@ -85,6 +100,10 @@ export class Header implements OnInit, OnDestroy {
       this.#routers.navigate(['/home/iniciar-sesion']);
       this.#headerService.setWhiteHeader(true);
     }
+  }
+
+  navigateToShoopingCart():void {
+    this.#routers.navigate(['/home/carrito-compras']);
   }
 
 }
