@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
-import { Product } from '@interfaces/IProducts';
 import { IShopingCartData, IShopingCartRequest, IShopingCartResponse } from '@interfaces/IShopingCart';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { HeaderSevice } from '@services/header/header-sevice';

@@ -26,7 +26,6 @@ export class LoggeInService {
     public logoutUser(): void {
       this.#authService.logout().subscribe({
         next:(response:ILoginResponse) => {  
-          console.log('Logout exitoso:', response);
           this.#cookieService.delete('token');
           this.#cookieService.delete('id');
           this.#cookieService.delete('name');
