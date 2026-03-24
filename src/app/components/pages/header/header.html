@@ -7,7 +7,7 @@
 
     </div>
     <div class="container-header__actions">
-        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
+        <mat-icon class="search" [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Buscar" fontIcon="search"></mat-icon>
         @if(LoggeInService.isLoggedIn$ | async ){
           <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Cerrar sesión" fontIcon="logout" (click)="confirmLogout()"></mat-icon>
         }
@@ -15,7 +15,7 @@
           <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person" (click)="navigateToLogin()"></mat-icon>
         }
         <div class="container-header__actions--shoping">
-            <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart" (click)="navigateToShoopingCart()"></mat-icon>
+            <mat-icon class="mat-shopping" [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart" (click)="navigateToShoopingCart()"></mat-icon>
             <div class="point-shopping" [ngStyle]="{'display': shoopingCart() || cookie() === 'true' ? 'block' : 'none'}" ></div>
         </div>
         <img src="../../../../assets/images/vikingoTechimg.png" alt="vikingoTech">

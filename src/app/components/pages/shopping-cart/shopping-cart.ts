@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
 import { Product } from '@interfaces/IProducts';
 import { IShopingCartData, IShopingCartRequest, IShopingCartResponse } from '@interfaces/IShopingCart';
@@ -35,11 +35,12 @@ export class ShoppingCart implements OnInit, OnDestroy {
   #unsubscribeRemoveShoppingCart!: Subscription;
   #shoopingCartService = inject(ShoopingCartService);
   public token = signal<string | null>(this.#cookieService.get('token'));
-  public  name = signal<string | null>(this.#cookieService.get('name'));
+  public name = signal<string | null>(this.#cookieService.get('name'));
   public headerWhite = signal<boolean>(false);
   public products = signal<IShopingCartData[]>([]);
   public urlImg = environment.domainimage;
   public math = Math;
+  public router = inject(Router)
 
   ngOnInit(): void {
     this.setWhiteHeader();
@@ -189,5 +190,11 @@ export class ShoppingCart implements OnInit, OnDestroy {
     if (confirm) {
       this.removeShoopingCart(productId);
     }
+  }
+
+  //funcion para redirigir a la pagina del producto usando
+  public goToProductPage(slug: string): void {
+    //redireccionar a la pagina del producto usando el slug
+    this.router.navigate(['/home/producto', slug.toLowerCase()]);
   }
 }

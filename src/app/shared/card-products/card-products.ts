@@ -36,6 +36,7 @@ export class CardProducts implements OnInit, OnDestroy {
   public stock = input<number>(1);
   public color = input<string>('color');
   public slug = input<string>('nombre-del-producto-de-lo-mejor-que-hay-en-vikingotech');
+  public idUser = signal<number>(1);
 
   public message = output<string>();
 
@@ -44,7 +45,7 @@ export class CardProducts implements OnInit, OnDestroy {
   public router = inject(Router)
 
   ngOnInit(): void {
-
+    this.idUser.set(parseInt(this.#cokieService.get('id')));
   }
 
   ngOnDestroy(): void {
@@ -99,6 +100,7 @@ export class CardProducts implements OnInit, OnDestroy {
 
       // 2. Buscamos si el producto ya existe en el carrito local
       const existingItem = cart.find(item => item.product_id === this.id());
+      console.log( cart.find(item => item.product_id === this.id()));
 
       if (existingItem) {
         // 3. Validamos stock antes de sumar
@@ -112,7 +114,7 @@ export class CardProducts implements OnInit, OnDestroy {
         const newItem: IShopingCartData = {
           id: Date.now(), // ID temporal para el carrito local
           amount: 1,
-          user_id: this.id(), 
+          user_id: this.idUser(),
           product_id: this.id(),
           user: {} as User, // Objeto vacío o datos genéricos
           product: {

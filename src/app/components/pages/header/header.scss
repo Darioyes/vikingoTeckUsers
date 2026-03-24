@@ -153,7 +153,10 @@
                 color: variables.$primary;
                 transition: color 0.3s ease;
             }
-            @include tablets{
+            @include phone{
+                // &:nth-child(1){
+                //     display: none;
+                // }
                 &:nth-child(2){
                     display: none;
                 }
@@ -223,4 +226,10 @@
 .color{
     color: variables.$primary; // color primario al hacer scrol
     
+}
+.search{
+    @include phone{
+        background-color: red;
+        display:none !important;
+    }
 }

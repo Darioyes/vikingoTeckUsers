@@ -4,9 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { IShopingCartRequest, IShopingCartResponse, IShopingCartData, User } from '@interfaces/IShopingCart';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { Products } from '@services/products/products';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
 import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
+import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,6 +31,9 @@ export class Product implements OnInit, OnDestroy {
   #route = inject(ActivatedRoute);
   #productsService = inject(Products);  
   #unsubscribe!: Subscription;
+  #cokieService = inject(CookieService);
+  #shoopingCartService = inject(ShoopingCartService);
+  #unsubscribeAddToCart!:  Subscription;
   //#route = inject(RouterModule);
   //#slug = inject(ActivatedRoute);
 
@@ -47,6 +53,7 @@ export class Product implements OnInit, OnDestroy {
   public zoomPosition = signal('50% 50%');
   public lensX = signal('0px');
   public lensY = signal('0px');
+  public loading = signal<boolean>(false);
 
   public quantity = signal(1);
 
@@ -60,6 +67,9 @@ export class Product implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if(this.#unsubscribe){
       this.#unsubscribe.unsubscribe();
+    }
+    if (this.#unsubscribeAddToCart) {
+      this.#unsubscribeAddToCart.unsubscribe();
     }
   }
 
@@ -175,6 +185,86 @@ public onMouseMove(event: MouseEvent) {
   this.lensY.set(`${y - lensSize / 2}px`);
 }
 
-  
+  //metodo para agrega el producto si no esta logeado al indexedDB
+  public addToCart(): void {
+    const token = this.#cokieService.get('token');
+    
+    if (token) {
+        if (this.loading()) return; // Si ya está procesando, no hagas nada
+        this.loading.set(true);
+        const request: IShopingCartRequest = {
+        _method: 'POST',
+        product_id: this.product().id,
+        user_id: parseInt(this.#cokieService.get('id'), 10),
+        amount: this.quantity()
+      };
+      // Aquí deberías llamar a tu servicio para agregar al carrito usando el request
+      this.#unsubscribeAddToCart = this.#shoopingCartService.addToCart(request).subscribe({
+        next: (response:IShopingCartResponse) => {
+          this.#shoopingCartService.setRedPointActive(true); // Activar el punto rojo en el header
+          this.#cokieService.set('cart_updated', 'true'); // Opcional: Puedes usar una cookie para indicar que el carrito se ha actualizado
+        },
+        error: (err:IShopingCartResponse) => {
+          console.log(err);
+        },
+        complete: () => {
+          this.loading.set(false);
+        }
+      });
+     
+     
+    } else {
+         // 1. Obtenemos el carrito actual (arreglo de datos del carrito)
+      const cart: IShopingCartData[] = JSON.parse(localStorage.getItem('cart') || '[]');
+      if(cart){
+        this.#shoopingCartService.setRedPointActive(true);
+        this.#cokieService.set('cart_updated', 'true');
+      }
 
+      // 2. Buscamos si el producto ya existe en el carrito local
+      const existingItem = cart.find(item => item.product_id === this.product().id);
+
+      if (existingItem) {
+        // 3. Validamos stock antes de sumar
+        if (existingItem.product.stock > existingItem.amount) {
+          existingItem.amount += this.quantity();
+        } else {
+          console.warn('No hay más stock disponible');
+        }
+        console.log('Item existente0:', existingItem);
+      } else {
+        
+        // 4. Creamos el nuevo item respetando la interfaz IShopingCartData
+       
+        console.log('Item existente1:', existingItem);
+        const newItem: IShopingCartData = {
+          id: Date.now(), // ID temporal para el carrito local
+          amount: this.quantity(),
+          user_id: this.product()?.id,
+          product_id: this.product()?.id,
+          user: {} as User, // Objeto vacío o datos genéricos
+          product: {
+            id: this.product()?.id,
+            name: this.product()?.name,
+            slug: this.product()?.slug,
+            stock: this.product()?.stock,
+            sale_price: this.product()?.sale_price,
+            image1: this.urlImage+this.product()?.image1.replace('public', 'storage'),
+            description: 'Carrito de compras local - producto agregado sin sesión', 
+            reference: null,
+            barcode: null,
+            visible: null,
+            image2: null, 
+            image3: null, 
+            image4: null, 
+            image5: null
+          }
+        };
+        cart.push(newItem);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }
+  
 }

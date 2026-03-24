@@ -9,13 +9,13 @@
                 <div class="container-card">
                     <div class="container-card__image">
                     @if (token()&& name()) {
-                        <img  [src]=" urlImg+item.product.image1.replace('public', 'storage')" [alt]="item.product.name ">
+                        <img (click)="goToProductPage(item.product.slug)"  [src]=" urlImg+item.product.image1.replace('public', 'storage')" [alt]="item.product.name ">
                     }@else{
-                        <img  [src]=" item.product.image1 " [alt]="item.product.name ">
+                        <img (click)="goToProductPage(item.product.slug)"  [src]=" item.product.image1 " [alt]="item.product.name ">
                     }
                     </div>
                     <div class="container-card__detail">
-                        <h3 class="container-card__detail--title"><a href="">{{ item.product.name }}</a></h3>
+                        <h3 class="container-card__detail--title"><a (click)="goToProductPage(item.product.slug)">{{ item.product.name }}</a></h3>
                         <div class="container-card__detail--items">
                             <p>Cantidad:</p>
                             <span>{{ math.floor(item.product.stock) | number}} {{item.product.stock > 1 ? 'Disponibles' : 'Disponible' }}</span>
@@ -42,5 +42,7 @@
         }@empty{
             <p>El carrito de compras está vacío.</p>
         }
+    }@placeholder {
+        <app-spiner-pages/>
     }
 </div>

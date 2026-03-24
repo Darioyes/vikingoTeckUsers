@@ -66,6 +66,7 @@
                 place-items: center;
                 flex:1 0 180px;
                 padding-left: 10px;
+                cursor: pointer;
                 @include tablets{
                     width: 80%;
                     height: auto;
@@ -93,6 +94,7 @@
                         color: $primary;
                         font-size: 1.1rem;
                         font-weight: bold;
+                        cursor: pointer;
                     }
                 }
 
