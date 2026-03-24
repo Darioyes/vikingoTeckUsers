@@ -29,7 +29,6 @@ export class EmailReset implements OnInit, OnDestroy {
   #alertService = inject(AlertService);
   #unsubscribeReset!: Subscription;
   #headerService = inject(HeaderSevice);
-  #router = inject(Router);
 
   public emailForm: any = new FormGroup({});
   public formbuilder = inject(FormBuilder);

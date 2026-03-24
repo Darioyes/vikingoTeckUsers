@@ -56,7 +56,13 @@
                     <mat-icon aria-hidden="false" aria-label="Iniciar sesión" fontIcon="person"></mat-icon>
                     <a  (click)="toggleMenu(true)" (click)="whiteHeader(true)" [routerLink]="['/home/iniciar-sesion']" >Iniciar sesión</a>
                 </div>
-                }
+            }@else{
+                <div class="link" routerLinkActive="active-nav" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon aria-hidden="false" aria-label="Cerrar sesión" fontIcon="person"></mat-icon>
+                    <a  (click)="toggleMenu(true)" (click)="confirmLogout(true)">Cerrar sesión</a>
+                </div>
+
+            }
             
         </div>
     </div>

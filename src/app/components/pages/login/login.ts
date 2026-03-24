@@ -13,6 +13,7 @@ import { AlertService } from '@services/alert/alertService/alert-service';
 import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
 import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
 import { IShopingCartData, IShopingCartResponse } from '@interfaces/IShopingCart';
+import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { IShopingCartData, IShopingCartResponse } from '@interfaces/IShopingCart
     MatButtonModule,
     ReactiveFormsModule,
     RouterModule,
-    CustomAlert
+    CustomAlert,
+    SpinerPages
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',

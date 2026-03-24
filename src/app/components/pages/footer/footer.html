@@ -1,4 +1,5 @@
 <div class="cotainer-footer">
+    @defer () {
         <!-- <p>&copy; 2024 Your Company. All rights reserved.</p> -->
     <div class="cotainer-footer__about">
         <h3>Acerca de</h3>
@@ -23,10 +24,10 @@
         <h3>Cuenta</h3>
         <div class="cotainer-footer__about--text">
             @if(!(LoggeInService.isLoggedIn$ | async) ){
-                <a (click)="navigateToLogin()">Iniciar sesión</a>
+                <a (click)="navigateToLogin()" [routerLink]="['/home/iniciar-sesion']">Iniciar sesión</a>
             }
-            <a href="#">Registrarse</a>
-            <a href="#">Carrito de compras</a>
+            <a [routerLink]="['/home/registrarse']">Registrarse</a>
+            <a [routerLink]="['/home/carrito-compras']">Carrito de compras</a>
         </div>
     </div>
 
@@ -37,5 +38,6 @@
              <a href="https://www.tiktok.com/@vikingotech07" target="_blank" rel="noopener noreferrer" ><i class="fa-brands fa-tiktok"></i></a>
          </div>
      </div>
+    }
 
 </div>

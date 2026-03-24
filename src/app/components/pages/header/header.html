@@ -14,8 +14,10 @@
         @if(!(LoggeInService.isLoggedIn$ | async)){
           <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Inicio de sesión" fontIcon="person" (click)="navigateToLogin()"></mat-icon>
         }
-        <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart" (click)="navigateToShoopingCart()"></mat-icon>
-        <div class="point-shopping" [ngStyle]="{'display': shoopingCart() || cookie() === 'true' ? 'block' : 'none'}" ></div>
+        <div class="container-header__actions--shoping">
+            <mat-icon [ngStyle]="{'color': isScrolled || headerWhite() ? colorPrimary : '' }" aria-hidden="false" aria-label="Carrito de compras" fontIcon="shopping_cart" (click)="navigateToShoopingCart()"></mat-icon>
+            <div class="point-shopping" [ngStyle]="{'display': shoopingCart() || cookie() === 'true' ? 'block' : 'none'}" ></div>
+        </div>
         <img src="../../../../assets/images/vikingoTechimg.png" alt="vikingoTech">
     </div>
 </div>

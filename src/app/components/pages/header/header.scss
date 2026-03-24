@@ -53,7 +53,7 @@
             width: 70px;
             height: 70px;
             padding: 0;
-            @include phone{
+            @include tablets{
                 width: 50px;
                 height: 50px;
             }
@@ -99,7 +99,7 @@
             width: 80px;
             height: 80px;
             padding: 0;
-                @include phone{
+                @include tablets{
                 width: 50px;
                 height: 50px;
             }
@@ -108,7 +108,6 @@
     }
     &__actions{
         flex:1;
-        position: relative;
         display: flex;
         align-items: center;
         justify-content: end;
@@ -117,7 +116,24 @@
         @include tablets{
             gap: 2px;
         }
-        
+
+        &--shoping{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+             mat-icon{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                color: variables.$white;
+                font-size: 1.8rem;
+            }
+
+        }
         mat-icon{
         display: flex;
         align-items: center;
@@ -141,32 +157,31 @@
                 &:nth-child(2){
                     display: none;
                 }
-                &:nth-child(1){
-                    display: none;
-                }
             }
 
-        }
-        img{
-            width: 70px;
-            height: 70px;
-            padding: 0;
-                @include phone{
-                width: 40px;
-                height: 40px;
-            }
         }
 
         .point-shopping{
             position: absolute;
-            top: 20px;
-            right: 90px;
+            top: 5px;
+            right: 8px;
             background-color: variables.$danger;
-            width: 5px;
-            height: 5px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             //display: none; //cambiar a display block con angular cuando haya productos en el carrito
             //colocar delante de los demas elementos
+        }
+        
+
+        img{
+            width: 70px;
+            height: 70px;
+            padding: 0;
+                @include tablets{
+                width: 40px;
+                height: 40px;
+            }
         }
         
     }
