@@ -27,7 +27,6 @@ export class CardProducts implements OnInit, OnDestroy {
   #cokieService = inject(CookieService);
   #shoopingCartService = inject(ShoopingCartService);
   #unsubscribeAddToCart!:  Subscription;
-  #alertService = inject(AlertService);
 
   public id = input<number>(1);
   public image = input<string>('./../../../assets/images/imagenPrueba.jpg');
@@ -100,7 +99,6 @@ export class CardProducts implements OnInit, OnDestroy {
 
       // 2. Buscamos si el producto ya existe en el carrito local
       const existingItem = cart.find(item => item.product_id === this.id());
-      console.log( cart.find(item => item.product_id === this.id()));
 
       if (existingItem) {
         // 3. Validamos stock antes de sumar

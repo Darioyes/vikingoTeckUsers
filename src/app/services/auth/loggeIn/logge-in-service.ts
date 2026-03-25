@@ -32,7 +32,8 @@ export class LoggeInService {
           this.#cookieService.delete('lastname');
           this.#cookieService.delete('success');  
           this.#cookieService.delete('avatar');
-          this.#cookieService.set('cart_updated', 'false'); 
+          this.#cookieService.delete('email');
+          this.#cookieService.delete('cart_updated'); 
           this.#shoppingCartService.setRedPointActive(false);
           this.upDateLoginStatus(false);
           this.#router.navigate(['/home/iniciar-sesion']);

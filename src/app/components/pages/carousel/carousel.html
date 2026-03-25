@@ -13,6 +13,10 @@
                 @if(banners().length >0){
                     <source media="(min-width: 650px)" [srcset]="urlImage + banners()[currentIndex()]?.image?.replace('public', 'storage')">
                     <img [src]="urlImage + (banners()[currentIndex()]?.image2?.replace('public', 'storage') || banners()[currentIndex()]?.image?.replace('public', 'storage'))"  alt="banner" [ngClass]="{'fade-out': isAnimating(),'fade-in': !isAnimating()}">
+                    <div class="container-carousel__buttons">
+                    <button class="btn" matButton="tonal" (click)="selectProduct()">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
+                    <button class="btn" matButton="filled" (click)="goToProductPage()">Ver</button>
+                </div>
                 }@else{
                     <source media="(min-width: 650px)" srcset="../../../../assets/images/1800X650.png">
                     <img src="../../../../assets/images/545x800.webp" alt="banner">
@@ -21,10 +25,7 @@
             
         </div>
 
-        <div class="container-carousel__buttons">
-            <button class="btn" matButton="tonal">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
-            <button class="btn" matButton="filled">Ver</button>
-        </div>
+
  
         @if(banners().length >=2) {
 

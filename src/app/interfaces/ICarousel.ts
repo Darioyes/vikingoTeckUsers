@@ -8,6 +8,10 @@ export interface IProduct {
   id: number;
   name: string;
   description: string;
+  slug: string;
+  stock: number;
+  sale_price: string;
+  image1: string;
 }
 
 export interface ICarousel {
