@@ -6,9 +6,7 @@ import { AlertService } from '@services/alert/alertService/alert-service';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, Subject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ShoopingCartService {
 
   #url = environment.domain;

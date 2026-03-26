@@ -41,6 +41,9 @@ export class ShoppingCart implements OnInit, OnDestroy {
   public math = Math;
   public router = inject(Router)
 
+  public colorSuccess = environment.colorSuccess;
+  public colorDanger = environment.colorDanger;
+
   ngOnInit(): void {
     this.setWhiteHeader();
     this.getCart();

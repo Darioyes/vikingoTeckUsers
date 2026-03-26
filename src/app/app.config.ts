@@ -15,6 +15,9 @@ import { maintenanceService } from '@services/maintenance/maintenanceService';
 import { CitiesService } from '@services/cities/cities/cities-service';
 import { UserRegisterService } from '@services/auth/register/user-register-service';
 import { AlertService } from '@services/alert/alertService/alert-service';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
+import { ResetPasswordService } from '@services/auth/resetPassword/reset-password-service';
+import { SalesService } from '@services/sales/sales-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,6 +31,9 @@ export const appConfig: ApplicationConfig = {
     CitiesService,
     UserRegisterService,
     AlertService,
+    ShoopingCartService,
+    ResetPasswordService,
+    SalesService,
 
     // provideBrowserGlobalErrorListeners(),//para manejar errores globales en el navegador
     provideBrowserGlobalErrorListeners(),

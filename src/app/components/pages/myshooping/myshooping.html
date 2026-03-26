@@ -1,4 +1,32 @@
-<div class="container-myshopping">
-    <p>myshooping works!</p>
+@defer () {
+    <div class="container-myshopping">
+        <div class="container-myshopping__title">
+            <h2>Mis Compras</h2>
+        </div>
+        @for (item of sales(); track $index) {
+            <div class="container-myshopping__content">
+                <div class="container-myshopping__content--dateshop">
+                    <h3>{{ item.created_at |date: "d 'de' MMMM 'de' y"}}</h3>
+                </div>
+                <div class="container-myshopping__content--detail">
+                    <div class="image">
+                        <img (click)="goToProductPage(item.product.slug)" [src]="url + item.product.image1.replace('public', 'storage')" [alt]="item.product.name">
+                    </div>
+                    <div class="detail">
+                        <h4 [ngStyle]="{ 'color': item.confirm_sale === 'True' ? colorSuccess : colorDanger }">
+                            {{ item.confirm_sale === 'True' ? 'Confirmada' : 'Pendiente' }}
+                        </h4>
+                        <h3>Entregado: {{ item.updated_at |date: "d 'de' MMMM 'de' y" }}</h3>
+                        <p class="nameproduc" (click)="goToProductPage(item.product.slug)">{{ item.product.name }}</p>
+                        <p>Cantidad: {{ item.amount |number}} {{ item.amount > 1 ? 'unidades' : 'unidad'}}</p>
+                        <p>Precio: ${{ item.product.sale_price |number }}</p>
+                    </div>
+                </div>
+            </div>
+        }@empty {
+            <p class="empty">No tiene ninguna compra registrada</p>
+        }
+    
+    </div>
 
-</div>
+}

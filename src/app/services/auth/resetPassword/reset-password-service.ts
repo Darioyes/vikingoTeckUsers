@@ -4,9 +4,7 @@ import { environment } from '@enviroments/environment.development';
 import { IResetPassword, IResetPasswordResponse } from '@interfaces/IResetPassword';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ResetPasswordService {
   
   #url = environment.domain;
