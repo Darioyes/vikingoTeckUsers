@@ -2,12 +2,16 @@ import { DecimalPipe } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { ISalesRequest, ISalesResponse } from '@interfaces/ISalesResponse';
 import { IShopingCartRequest, IShopingCartResponse, IShopingCartData, User } from '@interfaces/IShopingCart';
+import { AlertService } from '@services/alert/alertService/alert-service';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { Products } from '@services/products/products';
+import { SalesService } from '@services/sales/sales-service';
 import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
+import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
 import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
@@ -19,7 +23,8 @@ import { Subscription } from 'rxjs';
     MatButtonModule,
     RouterModule,
     DecimalPipe,
-    SpinerPages
+    SpinerPages,
+    CustomAlert,
   ],
   templateUrl: './product.html',
   styleUrl: './product.scss',
@@ -34,8 +39,13 @@ export class Product implements OnInit, OnDestroy {
   #cokieService = inject(CookieService);
   #shoopingCartService = inject(ShoopingCartService);
   #unsubscribeAddToCart!:  Subscription;
-  //#route = inject(RouterModule);
-  //#slug = inject(ActivatedRoute);
+  #unsubscribeSales!: Subscription;
+  #alertService = inject(AlertService);
+  #salesService = inject(SalesService);
+  public token = signal<string | null>(this.#cokieService.get('token'));
+  public name = signal<string | null>(this.#cokieService.get('name'));
+  public idUser = signal<number>(  Number(this.#cokieService.get('id')));
+  #routers = inject(Router);
 
   #touchStartX = 0;
   #touchEndX = 0;
@@ -71,6 +81,10 @@ export class Product implements OnInit, OnDestroy {
     if (this.#unsubscribeAddToCart) {
       this.#unsubscribeAddToCart.unsubscribe();
     }
+    if (this.#unsubscribeSales) {
+      this.#unsubscribeSales.unsubscribe();
+    }
+
   }
 
   public getWhiteHeader(): void {
@@ -266,5 +280,43 @@ public onMouseMove(event: MouseEvent) {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }
+
+   public createSale(amount: number, user_id: number, product_id: number): void {
+      if (this.token() && this.name()) {
+        const saleData: ISalesRequest = {
+          description: `Venta del producto desde el frontend de VikingoTech`,
+          amount: amount,
+          confirm_sale: 'false',
+          shopping_cart: 'false',
+          user_id: user_id,
+          product_id: product_id
+        };
+        this.#unsubscribeSales = this.#salesService.createSale(saleData).subscribe({
+          next: (response: ISalesResponse) => {
+            this.#alertService.showAlert('success', 'Reserva creada exitosamente. Recuerde que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta.');
+            this.rediretToHome();
+          },
+          error: (err: ISalesResponse) => {
+            console.error('Error al crear la venta:', err);
+            if(err.errorVikingo?.message === 'No hay stock suficiente para la venta'){
+              this.#alertService.showAlert('error', err.errorVikingo.message);
+            }else{
+              this.#alertService.showAlert('error', 'Error a la hora de crear la venta. Por favor, intenta nuevamente.');
+            }
+          }
+        });
+      }else{
+        this.#alertService.showAlert('info', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
+      }
+    }
   
+    async confirmSale(amount: number, product_id: number):  Promise<void>{
+       const confirm = await this.#alertService.openAlert('info', 'Recuerda que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta. ¿Deseas confirmar la reserva?');
+      if (confirm) {
+        this.createSale(amount, this.idUser(), product_id);
+      }
+    }
+  public rediretToHome(): void {
+    this.#routers.navigate(['/home']);
+  }
 }

@@ -4,10 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { ISalesRequest, ISalesResponse } from '@interfaces/ISalesResponse';
 import { IShopingCartData, IShopingCartRequest, IShopingCartResponse } from '@interfaces/IShopingCart';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { HeaderSevice } from '@services/header/header-sevice';
+import { SalesService } from '@services/sales/sales-service';
 import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
+import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
 import { SpinerPages } from '@shared/spiner-pages/spiner-pages';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
@@ -19,7 +22,8 @@ import { Subscription } from 'rxjs';
     MatButtonModule,
     RouterModule,
     DecimalPipe,
-    SpinerPages
+    SpinerPages,
+    CustomAlert
   ],
   templateUrl: './shopping-cart.html',
   styleUrl: './shopping-cart.scss',
@@ -32,7 +36,9 @@ export class ShoppingCart implements OnInit, OnDestroy {
   #idUser = this.#cookieService.get('id');
   #unsubscribeShooping!: Subscription;
   #unsubscribeRemoveShoppingCart!: Subscription;
+  #unsubscribeSales!: Subscription;
   #shoopingCartService = inject(ShoopingCartService);
+  #salesService = inject(SalesService);
   public token = signal<string | null>(this.#cookieService.get('token'));
   public name = signal<string | null>(this.#cookieService.get('name'));
   public headerWhite = signal<boolean>(false);
@@ -52,6 +58,12 @@ export class ShoppingCart implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.#unsubscribeShooping) {
       this.#unsubscribeShooping.unsubscribe();
+    }
+    if (this.#unsubscribeRemoveShoppingCart) {
+      this.#unsubscribeRemoveShoppingCart.unsubscribe();
+    }
+    if (this.#unsubscribeSales) {
+      this.#unsubscribeSales.unsubscribe();
     }
   }
 
@@ -168,6 +180,7 @@ export class ShoppingCart implements OnInit, OnDestroy {
       this.#unsubscribeRemoveShoppingCart = this.#shoopingCartService.removeFromCart(shoopingCartId).subscribe({
         next: (response:IShopingCartResponse) => {
           this.getCart();
+          console.log('elimiar carrito');
         },
         error: (err:IShopingCartResponse) => {
           console.log(err);
@@ -199,4 +212,41 @@ export class ShoppingCart implements OnInit, OnDestroy {
     //redireccionar a la pagina del producto usando el slug
     this.router.navigate(['/home/producto', slug.toLowerCase()]);
   }
+
+  public createSale(amount: number, user_id: number, product_id: number, shopping_cart_id: number): void {
+    if (this.token() && this.name()) {
+      const saleData: ISalesRequest = {
+        description: `Venta del producto desde el frontend de VikingoTech`,
+        amount: amount,
+        confirm_sale: 'false',
+        shopping_cart: 'false',
+        user_id: user_id,
+        product_id: product_id
+      };
+      this.#unsubscribeSales = this.#salesService.createSale(saleData).subscribe({
+        next: (response: ISalesResponse) => {
+          this.#alertService.showAlert('success', 'Reserva creada exitosamente. Recuerde que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta.');
+          this.removeShoopingCart(shopping_cart_id);
+        },
+        error: (err: ISalesResponse) => {
+          console.error('Error al crear la venta:', err);
+          if(err.errorVikingo?.message === 'No hay stock suficiente para la venta'){
+            this.#alertService.showAlert('error', err.errorVikingo.message);
+          }else{
+            this.#alertService.showAlert('error', 'Error a la hora de crear la venta. Por favor, intenta nuevamente.');
+          }
+        }
+      });
+    }else{
+      this.#alertService.showAlert('info', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
+    }
+  }
+
+  async confirmSale(amount: number, user_id: number, product_id: number, shopping_cart_id: number):  Promise<void>{
+     const confirm = await this.#alertService.openAlert('info', 'Recuerda que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta. ¿Deseas confirmar la reserva?');
+    if (confirm) {
+      this.createSale(amount, user_id, product_id, shopping_cart_id);
+    }
+  }
+
 }
