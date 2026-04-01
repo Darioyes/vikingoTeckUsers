@@ -6,11 +6,20 @@
         </div>
         <div class="container-navbar__nav--user">
             <div class="img">
-                <img src="../../../../assets/images/avatar.jpg" alt="Avatar">
+                @if(LoggeInService.isLoggedIn$ | async){
+                    <img [src]="urlImage + userImg().replace('public', 'storage')" alt="Avatar">
+                } @else {
+                    <img src="../../../../assets/images/favicon.ico" alt="Avatar">
+
+                }
             </div>
             <div class="perfil">
-                <p>Alejandro</p>
-                <p>Mi perfil</p>
+                @if(LoggeInService.isLoggedIn$ | async){
+                    <p>{{ userName() }}</p>
+                }@else{
+                    <p>Invitado</p>
+                }
+                <!-- <p>Mi perfil</p> -->
             </div>
         </div>
         <div class="container-navbar__nav--links" >

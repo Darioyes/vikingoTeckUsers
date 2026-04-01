@@ -31,8 +31,13 @@ export class Navbar implements OnInit, OnDestroy {
   #cookieService = inject(CookieService);
   #alertService = inject(AlertService);
   #routers = inject(Router);
-  router = inject(RouterModule);
+
+  
+  public router = inject(RouterModule);
   public LoggeInService = inject(LoggeInService);
+  public userImg = signal<string>(this.#cookieService.get('avatar'));
+  public userName = signal<string>(this.#cookieService.get('name'));
+  public urlImage = environment.domainimage;
 
   public activeMenu = signal<boolean>(true);
   public visibleMenu= signal<string>('hidden');

@@ -23,26 +23,26 @@ export class LoggeInService {
     this.#loggedIn.next(status);
   }
 
-    public logoutUser(): void {
-      this.#authService.logout().subscribe({
-        next:(response:ILoginResponse) => {  
-          this.#cookieService.delete('token');
-          this.#cookieService.delete('id');
-          this.#cookieService.delete('name');
-          this.#cookieService.delete('lastname');
-          this.#cookieService.delete('success');  
-          this.#cookieService.delete('avatar');
-          this.#cookieService.delete('email');
-          this.#cookieService.delete('cart_updated'); 
-          this.#shoppingCartService.setRedPointActive(false);
-          this.upDateLoginStatus(false);
-          this.#router.navigate(['/home/iniciar-sesion']);
-          
-        },
-        error: (error:ILoginResponse) => {
-          console.error('Error en el logout:', error);
-        }
-     });
-   }
+  public logoutUser(): void {
+    this.#authService.logout().subscribe({
+      next:(response:ILoginResponse) => {  
+        this.#cookieService.delete('token');
+        this.#cookieService.delete('id');
+        this.#cookieService.delete('name');
+        this.#cookieService.delete('lastname');
+        this.#cookieService.delete('success');  
+        this.#cookieService.delete('avatar');
+        this.#cookieService.delete('email');
+        this.#cookieService.delete('cart_updated'); 
+        this.#shoppingCartService.setRedPointActive(false);
+        this.upDateLoginStatus(false);
+        this.#router.navigate(['/home/iniciar-sesion']);
+        
+      },
+      error: (error:ILoginResponse) => {
+        console.error('Error en el logout:', error);
+      }
+    });
+  }
   
 }
