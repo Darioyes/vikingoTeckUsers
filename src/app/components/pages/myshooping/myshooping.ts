@@ -5,7 +5,7 @@ import { SalesService } from '@services/sales/sales-service';
 import { Subscription } from 'rxjs';
 import { environment } from '@enviroments/environment.development';
 import { DatePipe, DecimalPipe, NgStyle } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-myshooping',
@@ -22,10 +22,13 @@ export class Myshooping implements OnInit, OnDestroy {
   #headerService = inject(HeaderSevice)
   #salesService = inject(SalesService)
   #unsubscribeSales!: Subscription;
+  #route = inject(ActivatedRoute);
   url = environment.domainimage;
 
   public headerWhite = signal<boolean>(false);
   public sales = signal<Sale[]>([]);
+  public boldOrderId = signal<string>('');
+  public boldTxStatus = signal<string>('');
   public colorSuccess = environment.colorSuccess;
   public colorDanger = environment.colorDanger;
   public router = inject(Router)
@@ -70,6 +73,15 @@ export class Myshooping implements OnInit, OnDestroy {
   public goToProductPage(slug: string): void {
     //redireccionar a la pagina del producto usando el slug
     this.router.navigate(['/home/producto', slug.toLowerCase()]);
+  }
+
+  public responseBold(){
+     this.#route.queryParams.subscribe(params => {
+      this.boldOrderId.set(params['bold-order-id']);
+      this.boldTxStatus.set(params['bold-tx-status']);
+     });
+     console.log('Bold Order ID:', this.boldOrderId());
+     console.log('Bold Tx Status:', this.boldTxStatus());
   }
 
 }

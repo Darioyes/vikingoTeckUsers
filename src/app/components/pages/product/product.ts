@@ -1,12 +1,14 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal,AfterViewInit, ElementRef, ViewChild, effect } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { IKeyBoldResponse } from '@interfaces/IKeyBold';
 import { ISalesRequest, ISalesResponse } from '@interfaces/ISalesResponse';
 import { IShopingCartRequest, IShopingCartResponse, IShopingCartData, User } from '@interfaces/IShopingCart';
 import { AlertService } from '@services/alert/alertService/alert-service';
+import { BoldService } from '@services/bold/bold-service';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { Products } from '@services/products/products';
 import { SalesService } from '@services/sales/sales-service';
@@ -31,6 +33,7 @@ import { Subscription } from 'rxjs';
   //schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Product implements OnInit, OnDestroy {
+  @ViewChild('boldContainer', { static: false }) boldContainer!: ElementRef;
 
   #headerService = inject(HeaderSevice)
   #route = inject(ActivatedRoute);
@@ -42,10 +45,13 @@ export class Product implements OnInit, OnDestroy {
   #unsubscribeSales!: Subscription;
   #alertService = inject(AlertService);
   #salesService = inject(SalesService);
+  #routers = inject(Router);
+  #boldService = inject(BoldService);
+  #key = environment.apiKeyBold;
+
   public token = signal<string | null>(this.#cokieService.get('token'));
   public name = signal<string | null>(this.#cokieService.get('name'));
   public idUser = signal<number>(  Number(this.#cokieService.get('id')));
-  #routers = inject(Router);
 
   #touchStartX = 0;
   #touchEndX = 0;
@@ -72,6 +78,7 @@ export class Product implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setWhiteHeader();
     this.getProductBySlug();
+    
   }
 
   ngOnDestroy(): void {
@@ -121,6 +128,7 @@ export class Product implements OnInit, OnDestroy {
         this.product.set(data);
         this.images.set(imgs);
         this.successMessage.set(response.response);
+        //this.initBold(data);
       },
       error: (error) => {
         console.error(error);
@@ -281,7 +289,7 @@ public onMouseMove(event: MouseEvent) {
     }
   }
 
-   public createSale(amount: number, user_id: number, product_id: number): void {
+   public createReserv(amount: number, user_id: number, product_id: number): void {
       if (this.token() && this.name()) {
         const saleData: ISalesRequest = {
           description: `Venta del producto desde el frontend de VikingoTech`,
@@ -310,13 +318,179 @@ public onMouseMove(event: MouseEvent) {
       }
     }
   
-    async confirmSale(amount: number, product_id: number):  Promise<void>{
+  async confirmReserv(amount: number, product_id: number):  Promise<void>{
        const confirm = await this.#alertService.openAlert('info', 'Recuerda que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta. ¿Deseas confirmar la reserva?');
       if (confirm) {
-        this.createSale(amount, this.idUser(), product_id);
+        this.createReserv(amount, this.idUser(), product_id);
       }
     }
   public rediretToHome(): void {
     this.#routers.navigate(['/home']);
+  }
+
+//   async initBold(product: any) {
+
+//   const orderId = `order-${product.id}-${product.slug}-${Date.now()}`;
+//   const amount = product.sale_price * this.quantity(); ;
+//   const currency = 'COP';
+//   console.log('Generando orden con ID:', orderId, 'y monto:', amount);
+
+//   // 1️⃣ Obtener firma primero
+//   this.#boldService.getSignatureBold({
+//     orderId,
+//     amount,
+//     currency
+//   }).subscribe(async (res) => {
+
+//     // 2️⃣ Esperar un pequeño ciclo para asegurar DOM
+//     setTimeout(async () => {
+
+//       // 3️⃣ Cargar script
+//       await this.#boldService.loadScript();
+
+//       // 4️⃣ Renderizar botón
+//       this.#boldService.renderButtonElement(
+//         this.boldContainer.nativeElement,
+//         {
+//           apiKey: 'puqMNhY4pOUZ4cYv-89DYdIXbhicaJdKRvWy_yNzabU',
+//           amount,
+//           currency,
+//           orderId,
+//           description: product.name,
+//           integritySignature: res.data.signature,
+//           buttonStyle: 'light-S'
+//         }
+//       );
+
+//     }, 1000);
+//   });
+// }
+
+  async pagar() {
+
+    const email = this.#cokieService.get('email')
+    const fullName = this.#cokieService.get('name') + ' ' + this.#cokieService.get('lastname');
+
+    const product = this.product();
+    if (!product) return;
+
+    const orderId = `order_${product.id}-${this.idUser()}_${Date.now()}`;
+    const amount = (product.sale_price * this.quantity()).toString();
+    localStorage.setItem('orderId', orderId);
+
+      // 1️⃣ Crear orden
+    this.#boldService.createOrder({
+      orderId,
+      amount,
+      currency: 'COP'
+    }).subscribe(() => {
+      // 2️⃣ Generar firma
+      this.#boldService.getSignatureBold({
+        orderId,
+        amount,
+        currency: 'COP'
+      }).subscribe((res:IKeyBoldResponse) => {
+        
+        const config = this.#boldService.buildBoldConfig({
+          orderId,
+          currency: 'COP',
+          amount,
+          apiKey: this.#key,
+          integritySignature: res.data.signature,
+          renderMode: 'embedded',
+
+          description: product.name,
+          redirectionUrl: 'https://vikingotech-online.dariocode.com/#/home/mis-compras',
+
+          customerData: {
+            email: email,
+            fullName: fullName
+          },
+
+          // billingAddress: {
+          //   address: 'Calle 123',
+          //   city: 'Bogotá',
+          //   country: 'CO'
+          // },
+
+          //extraData1: 'usuario-premium'
+        });
+        
+
+        const checkout = new (window as any).BoldCheckout(config);
+        
+        checkout.open();
+
+      });
+    });
+  }
+
+//   async pagar() {
+
+//   const email = this.#cokieService.get('email')
+//   const fullName = this.#cokieService.get('name') + ' ' + this.#cokieService.get('lastname');
+
+//   const product = this.product();
+//   if (!product) return;
+
+//   const orderId = `order-${product.id}-${Date.now()}`;
+//   const amount = product.sale_price * this.quantity();
+
+//   // 1️⃣ Crear orden
+//   this.#boldService.createOrder({
+//     orderId,
+//     amount,
+//     currency: 'COP'
+//   }).subscribe(() => {
+
+//     // 2️⃣ Generar firma
+//     this.#boldService.getSignatureBold({
+//       orderId,
+//       amount,
+//       currency: 'COP'
+//     }).subscribe((res:IKeyBoldResponse) => {
+
+//       const config = this.#boldService.buildBoldConfig({
+//         orderId,
+//         currency: 'COP',
+//         amount,
+//         apiKey: this.#key,
+//         integritySignature: res.data.signature,
+
+//         description: product.name,
+//         //redirectionUrl: 'https://tusitio.com/resultado',
+
+//         customerData: {
+//           email: email,
+//           fullName: fullName
+//         },
+
+//         // billingAddress: {
+//         //   address: 'Calle 123',
+//         //   city: 'Bogotá',
+//         //   country: 'CO'
+//         // },
+
+//         //extraData1: 'usuario-premium'
+//       });
+
+//       const checkout = new (window as any).BoldCheckout(config);
+//       checkout.open(); // 🚀
+//     });
+
+//   });
+// }
+
+  async confirmSale(): Promise<void>{
+    if (this.token() || this.name()) {
+      const confirm = await this.#alertService.openAlert('info', '¿Deseas confirmar la compra?<br/><br/> Recuerda que por el momento no tenemos envios a domicilio, por lo que la compra se debera recoger en la tienda.');
+  
+      if (confirm) {
+        this.pagar();
+      }
+
+    } else {
+      this.#alertService.showAlert('alert', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
+    }
   }
 }

@@ -1,10 +1,10 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, output, signal,AfterViewInit,ElementRef, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { IShopingCartData, IShopingCartRequest, IShopingCartResponse, User } from '@interfaces/IShopingCart';
-import { AlertService } from '@services/alert/alertService/alert-service';
+import { BoldService } from '@services/bold/bold-service';
 import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
 import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
 import { CookieService } from 'ngx-cookie-service';
@@ -24,9 +24,12 @@ import { Subscription } from 'rxjs';
 })
 export class CardProducts implements OnInit, OnDestroy {
 
+  @ViewChild('boldContainer', { static: false }) boldContainer!: ElementRef;
+
   #cokieService = inject(CookieService);
   #shoopingCartService = inject(ShoopingCartService);
   #unsubscribeAddToCart!:  Subscription;
+  public boldService = inject(BoldService);
 
   public id = input<number>(1);
   public image = input<string>('./../../../assets/images/imagenPrueba.jpg');
@@ -143,4 +146,30 @@ export class CardProducts implements OnInit, OnDestroy {
   public sendMessage(message: string): void {
     this.message.emit(message);  
   }
+
+// async ngAfterViewInit() {
+//     await this.boldService.loadScript();
+
+//   this.boldService.renderButtonElement(
+//     this.boldContainer.nativeElement,
+//   {
+//     apiKey: 'puqMNhY4pOUZ4cYv-89DYdIXbhicaJdKRvWy_yNzabU',
+
+//     // 💰 dinámico
+//     amount: this.product().sale_price * this.quantity(),
+
+//     currency: 'COP',
+
+//     orderId: `order-${this.product().id}-${Date.now()}`,
+
+//     description: this.product().name,
+
+//     customerData: {
+//       email: 'cliente@test.com',
+//       fullName: 'Cliente Vikingo'
+//     },
+//     buttonStyle: 'light-S'
+//   }
+//   );
+//   }
 }
