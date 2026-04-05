@@ -5,6 +5,7 @@ export interface ISalesRequest {
   shopping_cart: string;
   user_id:       number;
   product_id:    number;
+  bold_order_id?: string;
 }
 
 export interface ISalesResponse {

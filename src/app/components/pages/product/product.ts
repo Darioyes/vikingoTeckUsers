@@ -289,34 +289,34 @@ public onMouseMove(event: MouseEvent) {
     }
   }
 
-   public createReserv(amount: number, user_id: number, product_id: number): void {
-      if (this.token() && this.name()) {
-        const saleData: ISalesRequest = {
-          description: `Venta del producto desde el frontend de VikingoTech`,
-          amount: amount,
-          confirm_sale: 'false',
-          shopping_cart: 'false',
-          user_id: user_id,
-          product_id: product_id
-        };
-        this.#unsubscribeSales = this.#salesService.createSale(saleData).subscribe({
-          next: (response: ISalesResponse) => {
-            this.#alertService.showAlert('success', 'Reserva creada exitosamente. Recuerde que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta.');
-            this.rediretToHome();
-          },
-          error: (err: ISalesResponse) => {
-            console.error('Error al crear la venta:', err);
-            if(err.errorVikingo?.message === 'No hay stock suficiente para la venta'){
-              this.#alertService.showAlert('error', err.errorVikingo.message);
-            }else{
-              this.#alertService.showAlert('error', 'Error a la hora de crear la venta. Por favor, intenta nuevamente.');
-            }
+  public createReserv(amount: number, user_id: number, product_id: number): void {
+    if (this.token() && this.name()) {
+      const saleData: ISalesRequest = {
+        description: `Venta del producto desde el frontend de VikingoTech`,
+        amount: amount,
+        confirm_sale: 'false',
+        shopping_cart: 'false',
+        user_id: user_id,
+        product_id: product_id
+      };
+      this.#unsubscribeSales = this.#salesService.createSale(saleData).subscribe({
+        next: (response: ISalesResponse) => {
+          this.#alertService.showAlert('success', 'Reserva creada exitosamente. Recuerde que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta.');
+          this.rediretToHome();
+        },
+        error: (err: ISalesResponse) => {
+          console.error('Error al crear la venta:', err);
+          if(err.errorVikingo?.message === 'No hay stock suficiente para la venta'){
+            this.#alertService.showAlert('error', err.errorVikingo.message);
+          }else{
+            this.#alertService.showAlert('error', 'Error a la hora de crear la venta. Por favor, intenta nuevamente.');
           }
-        });
-      }else{
-        this.#alertService.showAlert('info', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
-      }
+        }
+      });
+    }else{
+      this.#alertService.showAlert('info', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
     }
+  }
   
   async confirmReserv(amount: number, product_id: number):  Promise<void>{
        const confirm = await this.#alertService.openAlert('info', 'Recuerda que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta. ¿Deseas confirmar la reserva?');
@@ -374,9 +374,10 @@ public onMouseMove(event: MouseEvent) {
     const product = this.product();
     if (!product) return;
 
-    const orderId = `order_${product.id}-${this.idUser()}_${Date.now()}`;
+    const orderId = `order_${product.id}_${this.idUser()}_${Date.now()}`;
     const amount = (product.sale_price * this.quantity()).toString();
     localStorage.setItem('orderId', orderId);
+    localStorage.setItem('amount', amount);
 
       // 1️⃣ Crear orden
     this.#boldService.createOrder({
@@ -397,7 +398,7 @@ public onMouseMove(event: MouseEvent) {
           amount,
           apiKey: this.#key,
           integritySignature: res.data.signature,
-          renderMode: 'embedded',
+          renderMode: 'redirect',
 
           description: product.name,
           redirectionUrl: 'https://vikingotech-online.dariocode.com/#/home/mis-compras',
