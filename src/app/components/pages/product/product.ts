@@ -48,6 +48,7 @@ export class Product implements OnInit, OnDestroy {
   #routers = inject(Router);
   #boldService = inject(BoldService);
   #key = environment.apiKeyBold;
+  #urlFront = environment.domainFrontend;
 
   public token = signal<string | null>(this.#cokieService.get('token'));
   public name = signal<string | null>(this.#cokieService.get('name'));
@@ -253,12 +254,9 @@ public onMouseMove(event: MouseEvent) {
         } else {
           console.warn('No hay más stock disponible');
         }
-        console.log('Item existente0:', existingItem);
       } else {
         
         // 4. Creamos el nuevo item respetando la interfaz IShopingCartData
-       
-        console.log('Item existente1:', existingItem);
         const newItem: IShopingCartData = {
           id: Date.now(), // ID temporal para el carrito local
           amount: this.quantity(),
@@ -284,7 +282,6 @@ public onMouseMove(event: MouseEvent) {
         };
         cart.push(newItem);
       }
-
       localStorage.setItem('cart', JSON.stringify(cart));
     }
   }
@@ -366,7 +363,12 @@ public onMouseMove(event: MouseEvent) {
 //   });
 // }
 
-  async pagar() {
+  async pagar(stock: number) {
+
+    if(stock < this.quantity()){
+      this.#alertService.showAlert('error', 'No hay stock suficiente para realizar la compra. Por favor, reduce la cantidad.');
+      return;
+    }
 
     const email = this.#cokieService.get('email')
     const fullName = this.#cokieService.get('name') + ' ' + this.#cokieService.get('lastname');
@@ -377,7 +379,7 @@ public onMouseMove(event: MouseEvent) {
     const orderId = `order_${product.id}_${this.idUser()}_${Date.now()}`;
     const amount = (product.sale_price * this.quantity()).toString();
     localStorage.setItem('orderId', orderId);
-    localStorage.setItem('amount', amount);
+    localStorage.setItem('amount', this.quantity().toString());
 
       // 1️⃣ Crear orden
     this.#boldService.createOrder({
@@ -391,7 +393,6 @@ public onMouseMove(event: MouseEvent) {
         amount,
         currency: 'COP'
       }).subscribe((res:IKeyBoldResponse) => {
-        
         const config = this.#boldService.buildBoldConfig({
           orderId,
           currency: 'COP',
@@ -401,7 +402,7 @@ public onMouseMove(event: MouseEvent) {
           renderMode: 'redirect',
 
           description: product.name,
-          redirectionUrl: 'https://vikingotech-online.dariocode.com/#/home/mis-compras',
+          redirectionUrl: `${this.#urlFront}home/mis-compras`,
 
           customerData: {
             email: email,
@@ -482,12 +483,12 @@ public onMouseMove(event: MouseEvent) {
 //   });
 // }
 
-  async confirmSale(): Promise<void>{
+  async confirmSale(stock: number): Promise<void>{
     if (this.token() || this.name()) {
       const confirm = await this.#alertService.openAlert('info', '¿Deseas confirmar la compra?<br/><br/> Recuerda que por el momento no tenemos envios a domicilio, por lo que la compra se debera recoger en la tienda.');
   
       if (confirm) {
-        this.pagar();
+        this.pagar(stock);
       }
 
     } else {

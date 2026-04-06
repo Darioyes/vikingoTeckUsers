@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AlertService } from '@services/alert/alertService/alert-service';
 import { CustomAlert } from '@shared/Alerts/custom-alert/custom-alert';
+import { IShopingCartResponse } from '@interfaces/IShopingCart';
+import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
 
 @Component({
   selector: 'app-myshooping',
@@ -29,6 +31,8 @@ export class Myshooping implements OnInit, OnDestroy {
   #route = inject(ActivatedRoute);
   #cokieService = inject(CookieService);
   #alertService = inject(AlertService);
+  #unsubscribeRemoveShoppingCart!: Subscription;
+  #unsubscribeShooping!: Subscription;
   url = environment.domainimage;
 
   public headerWhite = signal<boolean>(false);
@@ -39,7 +43,7 @@ export class Myshooping implements OnInit, OnDestroy {
   public token = signal<string | null>(this.#cokieService.get('token'));
   public name = signal<string | null>(this.#cokieService.get('name'));
   public idUser = signal<number>(  Number(this.#cokieService.get('id')));
-  public amount = signal<any>('');
+  public amount = signal<any>(this.#cokieService.get('amount'));
 
   datosOrden = signal<any>({
     tipo: '',
@@ -64,6 +68,12 @@ export class Myshooping implements OnInit, OnDestroy {
 
     if (this.#unsubscribeSales) {
       this.#unsubscribeSales.unsubscribe();
+    }
+    if (this.#unsubscribeRemoveShoppingCart) {
+      this.#unsubscribeRemoveShoppingCart.unsubscribe();
+    }
+    if (this.#unsubscribeShooping) {
+      this.#unsubscribeShooping.unsubscribe();
     }
 
   }
@@ -100,8 +110,6 @@ export class Myshooping implements OnInit, OnDestroy {
       this.boldOrderId.set(params['bold-order-id']);
       this.boldTxStatus.set(params['bold-tx-status']);
      });
-     console.log('Bold Order ID:', this.boldOrderId());
-     console.log('Bold Tx Status:', this.boldTxStatus());
 
     const [tipo, idProduct, idUser, timestamp] = this.boldOrderId().split('_');
     
@@ -112,13 +120,8 @@ export class Myshooping implements OnInit, OnDestroy {
       timestamp: timestamp
      });
      this.amount.set(localStorage.getItem('amount'));
-     console.log('Datos Orden:', this.datosOrden());
-     console.log('Amount:', this.amount());
-
-     //esperar un segundo para asegurarse de que se obtengan los datos de la orden antes de crear la venta
     setTimeout(() => {
       this.createVenta();
-      console.log('Venta creada con los datos de la orden finalmente');
     }, 1000);
 
   }
@@ -142,11 +145,13 @@ export class Myshooping implements OnInit, OnDestroy {
               this.#alertService.showAlert('success', '¡Compra realizada con éxito! Te esperamos en nuestra tienda para la entrega. Gracias por tu compra.');
             }
             else if(this.boldTxStatus() === 'rejected'){
-              this.#alertService.showAlert('error', 'Tu compra ha sido rechazada. Por favor, intenta nuevamente o contacta a soporte de tu banco para más información.');
+              this.#alertService.showAlert('error', 'Tu compra ha sido rechazada. Por favor, intenta nuevamente o contacta a soporte de tu banco para más información <br/><br/>. De todos modos te reservaremos el producto por 24 horas si deseas pagar en efectivo.');
             }
+
             //borrar el localStorage
             localStorage.removeItem('orderId');
             localStorage.removeItem('amount');
+            this.getSales();
           },
           error: (err: ISalesResponse) => {
             console.error('Error al crear la venta:', err);
@@ -157,7 +162,6 @@ export class Myshooping implements OnInit, OnDestroy {
             }
           }
         });
-        this.getSales();
       }else{
         this.#alertService.showAlert('error', 'No se pudo obtener el monto de la compra. Por favor, contactanos para verificas si se realizo el pago.');
       }

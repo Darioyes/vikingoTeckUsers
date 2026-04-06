@@ -26,18 +26,18 @@
                             <h3>Cantidad</h3>
                             <div class="plus">
                                 <button  matButton="tonal" (click)="updateAmount(item.id, -1)">-</button>
-                                <input  type="number" [value]="math.floor(item.amount) | number" min="1" [max]="item?.product?.stock" />
+                                <input  type="number" [value]="math.floor(item.amount) | number" min="1" [max]="item?.product?.stock" (keydown)="blockTyping($event)" (paste)="$event.preventDefault()" />
                                 <button matButton="filled" (click)="updateAmount(item.id, 1)">+</button>
                             </div>
                         </div>
                     </div>
                     <div class="container-card__price">
-                        <p>${{ item.product.sale_price | number }}</p>
+                        ${{ (parseInt(item.product.sale_price) * item.amount) | number }}
                     </div>
                 </div>
                 <div class="container-buttons">
-                    <button class="btn" matButton="filled" (click)="confirmSale(item.amount, item.user_id, item.product_id, item.id)" >Reservar</button>
-                    <button class="btn" matButton="tonal" >Botón Bold</button>
+                    <button class="btn" matButton="filled" (click)="confirmReserv(item.amount, item.user_id, item.product_id, item.id)" >Reservar</button>
+                    <button class="btn" matButton="tonal" (click)="confirmSale(item.product.id, parseFloat(item.product.sale_price), math.floor(item.amount), item.product.stock, item.product.name, item.id)">Pagar</button>
                 </div>
             </div>
         }@empty{

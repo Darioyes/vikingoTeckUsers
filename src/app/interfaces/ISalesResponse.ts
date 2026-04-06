@@ -27,7 +27,7 @@ export interface Sale {
   updated_at:    string;
   user_id:       number;
   product_id:    number;
-  cost_total:    string;
+  sale_total:    string;
   product:       Product;
 }
 

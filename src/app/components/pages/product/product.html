@@ -109,7 +109,7 @@
             <div class="container-product__detail--buttons">
                 <button class="btn" matButton="tonal" (click)="addToCart()">Agregar<mat-icon fontIcon="shopping_cart"></mat-icon></button>
                 <button class="btn" matButton="filled" (click)="confirmReserv(quantity(),product().id)" >Reservar</button>
-                <button class="btn" matButton="filled" (click)="confirmSale()">Pagar</button>
+                <button class="btn" matButton="filled" (click)="confirmSale(product()?.stock)">Pagar</button>
                 <!-- <div #boldContainer></div> -->
             </div>
     

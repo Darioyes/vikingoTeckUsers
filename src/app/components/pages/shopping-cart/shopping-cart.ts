@@ -4,9 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '@enviroments/environment.development';
+import { IKeyBoldResponse } from '@interfaces/IKeyBold';
 import { ISalesRequest, ISalesResponse } from '@interfaces/ISalesResponse';
 import { IShopingCartData, IShopingCartRequest, IShopingCartResponse } from '@interfaces/IShopingCart';
 import { AlertService } from '@services/alert/alertService/alert-service';
+import { BoldService } from '@services/bold/bold-service';
 import { HeaderSevice } from '@services/header/header-sevice';
 import { SalesService } from '@services/sales/sales-service';
 import { ShoopingCartService } from '@services/shoopingCart/ShoopingCart/shooping-cart-service';
@@ -39,12 +41,18 @@ export class ShoppingCart implements OnInit, OnDestroy {
   #unsubscribeSales!: Subscription;
   #shoopingCartService = inject(ShoopingCartService);
   #salesService = inject(SalesService);
+  #boldService = inject(BoldService);
+  #key = environment.apiKeyBold;
+  #domainFrontend = environment.domainFrontend;
   public token = signal<string | null>(this.#cookieService.get('token'));
   public name = signal<string | null>(this.#cookieService.get('name'));
   public headerWhite = signal<boolean>(false);
   public products = signal<IShopingCartData[]>([]);
+  public idUser = signal<number>(  Number(this.#cookieService.get('id')));
   public urlImg = environment.domainimage;
   public math = Math;
+  public parseFloat = parseFloat;
+  public parseInt = parseInt;
   public router = inject(Router)
 
   public colorSuccess = environment.colorSuccess;
@@ -180,7 +188,6 @@ export class ShoppingCart implements OnInit, OnDestroy {
       this.#unsubscribeRemoveShoppingCart = this.#shoopingCartService.removeFromCart(shoopingCartId).subscribe({
         next: (response:IShopingCartResponse) => {
           this.getCart();
-          console.log('elimiar carrito');
         },
         error: (err:IShopingCartResponse) => {
           console.log(err);
@@ -213,7 +220,7 @@ export class ShoppingCart implements OnInit, OnDestroy {
     this.router.navigate(['/home/producto', slug.toLowerCase()]);
   }
 
-  public createSale(amount: number, user_id: number, product_id: number, shopping_cart_id: number): void {
+  public createReserv(amount: number, user_id: number, product_id: number, shopping_cart_id: number): void {
     if (this.token() && this.name()) {
       const saleData: ISalesRequest = {
         description: `Venta del producto desde el frontend de VikingoTech`,
@@ -242,11 +249,105 @@ export class ShoppingCart implements OnInit, OnDestroy {
     }
   }
 
-  async confirmSale(amount: number, user_id: number, product_id: number, shopping_cart_id: number):  Promise<void>{
+  async confirmReserv(amount: number, user_id: number, product_id: number, shopping_cart_id: number):  Promise<void>{
      const confirm = await this.#alertService.openAlert('info', 'Recuerda que la reserva sera por 24 horas, luego de ese tiempo se eliminara si no se confirma la venta. ¿Deseas confirmar la reserva?');
     if (confirm) {
-      this.createSale(amount, user_id, product_id, shopping_cart_id);
+      this.createReserv(amount, user_id, product_id, shopping_cart_id);
     }
+  }
+
+  async pagar(idProduct: any,salesPrice:number,quantity:number,stock: number, productName:string, shoppingCartId: number) {
+
+    if(stock < quantity){
+      this.#alertService.showAlert('error', 'No hay stock suficiente para realizar la compra. Por favor, reduce la cantidad.');
+      return;
+    }
+
+    const email = this.#cookieService.get('email')
+    const fullName = this.#cookieService.get('name') + ' ' + this.#cookieService.get('lastname');
+
+    const product = this.products();
+    if (!product) return;
+
+    const orderId = `order_${idProduct}_${this.idUser()}_${Date.now()}`;
+    const amount = (salesPrice * quantity).toString();
+    localStorage.setItem('orderId', orderId);
+    localStorage.setItem('amount', quantity.toString());
+
+      // 1️⃣ Crear orden
+    this.#boldService.createOrder({
+      orderId,
+      amount,
+      currency: 'COP'
+    }).subscribe(() => {
+      // 2️⃣ Generar firma
+      this.#boldService.getSignatureBold({
+        orderId,
+        amount,
+        currency: 'COP'
+      }).subscribe((res:IKeyBoldResponse) => {
+        
+        const config = this.#boldService.buildBoldConfig({
+          orderId,
+          currency: 'COP',
+          amount,
+          apiKey: this.#key,
+          integritySignature: res.data.signature,
+          renderMode: 'redirect',
+
+          description: productName,
+          redirectionUrl: `${this.#domainFrontend}home/mis-compras`,
+
+          customerData: {
+            email: email,
+            fullName: fullName
+          },
+
+          // billingAddress: {
+          //   address: 'Calle 123',
+          //   city: 'Bogotá',
+          //   country: 'CO'
+          // },
+
+          //extraData1: 'usuario-premium'
+        });
+
+        const checkout = new (window as any).BoldCheckout(config);
+        
+        checkout.open();
+
+        this.removeShoopingCart(shoppingCartId);
+        this.getCart();
+      });
+    });
+  }
+  
+  async confirmSale(idProduct: any,salesPrice:number,quantity:number,stock: number, productName:string, shoppingCartId: number): Promise<void>{
+    if (this.token() || this.name()) {
+      const confirm = await this.#alertService.openAlert('info', '¿Deseas confirmar la compra?<br/><br/> Recuerda que por el momento no tenemos envios a domicilio, por lo que la compra se debera recoger en la tienda.');
+  
+      if (confirm) {
+        this.pagar(idProduct,salesPrice,quantity,stock,productName, shoppingCartId);
+      }
+
+    } else {
+      this.#alertService.showAlert('alert', 'Para realizar una compra, por favor inicia sesión o regístrate en nuestra plataforma.');
+    }
+  }
+
+  public blockTyping(event: KeyboardEvent) {
+    // Permitir solo teclas de control
+    const allowedKeys = [
+      'ArrowUp', 'ArrowDown', 'Tab', 'Backspace', 'Delete', 'Enter', 'Escape'
+    ];
+
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  public blockAllInput(event: KeyboardEvent) {
+    event.preventDefault();
   }
 
 }

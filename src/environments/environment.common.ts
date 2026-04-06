@@ -23,5 +23,6 @@ export const commonEnvironment = {
   colorBlackTransparent:'#0000003c',
   //declaramos el entorno producción
   production: true,
-  apiKeyBold: 'puqMNhY4pOUZ4cYv-89DYdIXbhicaJdKRvWy_yNzabU'
+  apiKeyBold: 'puqMNhY4pOUZ4cYv-89DYdIXbhicaJdKRvWy_yNzabU',
+  domainFrontend: 'https://vikingotech-online.dariocode.com/#/'
 };

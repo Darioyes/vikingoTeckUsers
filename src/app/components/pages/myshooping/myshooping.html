@@ -14,17 +14,17 @@
                         <img (click)="goToProductPage(item.product.slug)" [src]="url + item.product.image1.replace('public', 'storage')" [alt]="item.product.name">
                     </div>
                     <div class="detail">
-                        <h4 [ngStyle]="{ 'color': item.confirm_sale === 'True' ? colorSuccess : colorDanger }">
-                            {{ item.confirm_sale === 'True' ? 'Confirmada' : 'Pendiente' }}
+                        <h4 [ngStyle]="{ 'color': item.confirm_sale === 'True' || item.confirm_sale === 'true' ? colorSuccess : colorDanger }">
+                            {{ item.confirm_sale === 'True' ||item.confirm_sale === 'true' ? 'Venta confirmada' : 'Pendiente de pago' }}
                         </h4>
-                        @if (item.confirm_sale === 'True') {
+                        @if (item.updated_at > item.created_at) {
                             <h3>Entregado: {{ item.updated_at |date: "d 'de' MMMM 'de' y" }}</h3>
                         }@else {
                             <h3>Pendiente de la entrega del producto</h3>
                         }
                         <p class="nameproduc" (click)="goToProductPage(item.product.slug)">{{ item.product.name }}</p>
                         <p>Cantidad: {{ item.amount |number}} {{ item.amount > 1 ? 'unidades' : 'unidad'}}</p>
-                        <p>Precio: ${{ item.product.sale_price |number }}</p>
+                        <p>Precio: ${{ item.sale_total |number }}</p>
                     </div>
                 </div>
             </div>
