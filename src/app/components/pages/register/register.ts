@@ -113,6 +113,8 @@ export class Register implements OnInit, OnDestroy {
       cities_id: ['', Validators.compose([Validators.required])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(255), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$')])],
       password_confirmation: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(255),Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>]).*$')])],
+      acceptRepairPolicy: [false, Validators.requiredTrue],
+      acceptTerms: [false, Validators.requiredTrue]
     });
   }
 
@@ -127,6 +129,8 @@ export class Register implements OnInit, OnDestroy {
   get cities_id(){ return this.registerForm.get('cities_id'); }
   get password(){ return this.registerForm.get('password'); }
   get password_confirmation(){ return this.registerForm.get('password_confirmation'); }
+  get acceptTerms() {return this.registerForm.get('acceptTerms');}
+  get acceptRepairPolicy() {return this.registerForm.get('acceptRepairPolicy');}
 
   public cities(){
     this.#unsubscribeCities = this.#citiesService.getCities().subscribe({
@@ -157,6 +161,7 @@ export class Register implements OnInit, OnDestroy {
   }
 
   public registerUserForm(): void {
+    this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
         this.buttons.set(false);
         const data: FormData = new FormData();

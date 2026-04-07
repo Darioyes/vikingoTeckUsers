@@ -76,6 +76,25 @@ export const routes: Routes = [
                 title: 'vikingoTech - Correo Restablecer Contraseña',
                 loadComponent: () => import('./components/pages/email-reset/email-reset').then(c => c.EmailReset),
             },
+            {
+                //ruta para política de privacidad
+                path: 'politica-privacidad',
+                title: 'vikingoTech - Política de Privacidad',
+                loadComponent: () => import('./components/pages/term/privacy-policies/privacy-policies').then(c => c.PrivacyPolicies),
+
+            },
+            {
+                //ruta para los términos y condiciones
+                path: 'terminos-condiciones',
+                title: 'vikingoTech - Términos y Condiciones',
+                loadComponent: () => import('./components/pages/term/term-and-conditions/term-and-conditions').then(c => c.TermAndConditions),
+            },
+            {
+                //ruta para la política de cookies
+                path: 'politica-cookies',
+                title: 'vikingoTech - Política de Cookies',
+                loadComponent: () => import('./components/pages/term/use-of-cookies/use-of-cookies').then(c => c.UseOfCookies),
+            },
         ],
     },
    

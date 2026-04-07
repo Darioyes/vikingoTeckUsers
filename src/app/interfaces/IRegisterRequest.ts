@@ -11,6 +11,7 @@ export interface IRegisterRequest {
   password: string;
   password_confirmation: string;
   cities_id?: number | string;
+  acceptTerms: boolean;
 }
 
 export interface IRegisterResponse {
